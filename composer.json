@@ -1,0 +1,30 @@
+{
+    "name"       : "mattlab/muse",
+    "description": "Muse",
+    "version"    : "0.0.0",
+    "license"    : "GPL-3.0",
+    "authors": [
+        {
+            "name" : "Renaud Littolff",
+            "email": "rlittolff@gmail.com"
+        }
+    ],
+    "require": {
+        "symfony/http-foundation" : "*",
+        "symfony/routing"         : "*",
+        "symfony/http-kernel"     : "*",
+        "symfony/event-dispatcher": "*",
+        "symfony/finder"          : "*",
+        "symfony/templating"      : "*",
+        "doctrine/orm"            : "*"
+    },
+    "require-dev": {
+        "atoum/atoum": "dev-master"
+    },
+    "autoload": {
+        "psr-0": {
+            "Muse"   : "src/",
+            "Simplex": "src/"
+        }
+    }
+}
