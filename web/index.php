@@ -29,7 +29,7 @@ $routes->add(
 $routes->add(
     'AlbumDisplay',
     new Routing\Route(
-        '/album/{album}/{page}-{nbPerPage}',
+        '/album/{page}-{nbPerPage}/{album}',
         array(
             '_controller' => 'Muse\\Controller\\Album::displayAction',
             'page'        => 1,

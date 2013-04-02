@@ -40,15 +40,14 @@ header a:hover {
 
 #gallery > div.item {
     display: inline-block;
-    box-shadow: 5px 5px 15px black;
+    box-shadow: 5px 5px 5px grey;
     margin: 5px;
     padding: 5px;
-    border: 1px solid white;
     background-color: white;
 }
 
 #gallery > div.item:hover {
-    box-shadow: 0 0 20px black;
+    box-shadow: 0 0 5px grey;
 }
 
 #gallery > div.item a,
@@ -64,6 +63,60 @@ header a:hover {
 
 #gallery > div.item .name {
     font-size: 0.7em;
+}
+
+#gallery .pagination {
+    text-align: center;
+    margin: 10px;
+}
+
+#gallery .pagination a,
+#gallery .pagination span {
+    display: inline-block;
+}
+
+#gallery .pagination .button {
+    width: 25px;
+    height: 18px;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+#gallery .pagination span.button {
+    opacity: 0.2;
+}
+
+#gallery .pagination .first {
+    background-image: url(../img/first.png);
+}
+
+#gallery .pagination .previous {
+    background-image: url(../img/previous.png);
+}
+
+#gallery .pagination .next {
+    background-image: url(../img/next.png);
+}
+
+#gallery .pagination .last {
+    background-image: url(../img/last.png);
+}
+
+#gallery .pagination a.page {
+    padding: 3px 8px;
+    background-color: #287AC8;
+    color: white;
+    margin-bottom: 2px;
+}
+
+#gallery .pagination a.page:hover {
+    text-decoration: none;
+    background-color: #489AE8;
+}
+
+#gallery .pagination a.current {
+    background-color: #085AA8;
+    border: 1px solid #083A88;
 }
 
 footer {

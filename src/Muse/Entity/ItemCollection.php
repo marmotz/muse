@@ -33,17 +33,13 @@ class ItemCollection implements \Iterator {
     use Paginator;
 
 
-    public function addItems($items, $repaginate = true) {
+    public function addItems($items) {
         foreach($items as $item) {
             $this->addItem($item, false);
         }
-
-        if($repaginate) {
-            $this->repaginateOnCollectionChange();
-        }
     }
 
-    public function addItem($item, $repaginate = true) {
+    public function addItem($item) {
         if($item instanceof \SplFileInfo) {
             $item = $item->isDir() ? new Album($item) : new Photo($item);
         }
@@ -52,19 +48,9 @@ class ItemCollection implements \Iterator {
         }
 
         $this->collection[] = $item;
-
-        if($repaginate) {
-            $this->repaginateOnCollectionChange();
-        }
     }
 
     public function getCollection() {
         return $this->collection;
-    }
-
-    public function setCollection(array $collection, $repaginate = true) {
-        $this->collection = array();
-
-        $this->addItems($collection, $repaginate);
     }
 }

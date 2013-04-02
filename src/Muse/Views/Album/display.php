@@ -27,7 +27,17 @@
     </div>
     <?php endif; ?>
 
-    <?php foreach($items as $item): ?>
+    <?php foreach($items->getPaginatedPreviousData() as $item): ?>
+    <?php     $currentItemPath = ltrim($albumPath . '/' . $item->getName(), '/'); ?>
+    <a
+        href="<?php echo $u->generate('PhotoDisplay', array('photo' => $currentItemPath)); ?>"
+        class="fresco"
+        data-fresco-caption="<?php echo basename($currentItemPath); ?>"
+        data-fresco-group="photo"
+    ></a>
+    <?php endforeach; ?>
+
+    <?php foreach($items->getPaginatedData() as $item): ?>
     <?php     $currentItemPath = ltrim($albumPath . '/' . $item->getName(), '/'); ?>
     <div class="item <?php echo $item->getType(); ?>">
         <?php if($item->isAlbum()): ?>
@@ -53,6 +63,61 @@
         </p>
     </div>
     <?php endforeach; ?>
+
+    <?php foreach($items->getPaginatedNextData() as $item): ?>
+    <?php     $currentItemPath = ltrim($albumPath . '/' . $item->getName(), '/'); ?>
+    <a
+        href="<?php echo $u->generate('PhotoDisplay', array('photo' => $currentItemPath)); ?>"
+        class="fresco"
+        data-fresco-caption="<?php echo basename($currentItemPath); ?>"
+        data-fresco-group="photo"
+    ></a>
+    <?php endforeach; ?>
+
+    <?php if($nbPages > 1): ?>
+    <div class="pagination">
+        <?php $pages = $items->getPages(); ?>
+
+        <?php if($items->hasPreviousPage()): ?>
+        <a
+            href="<?php echo $u->generate('AlbumDisplay', array('album' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $items->getFirstPage())); ?>"
+            class="button first"
+        >&nbsp;</a>
+
+        <a
+            href="<?php echo $u->generate('AlbumDisplay', array('album' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $items->getPreviousPage())); ?>"
+            class="button previous"
+        >&nbsp;</a>
+        <?php else: ?>
+        <span class="button first">&nbsp;</span>
+        <span class="button previous">&nbsp;</span>
+        <?php endif; ?>
+
+        <?php foreach($pages as $linkPage): ?>
+        <a
+            href="<?php echo $u->generate('AlbumDisplay', array('album' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $linkPage)); ?>"
+            class="page<?php if((int) $linkPage === (int) $page): ?> current<?php endif; ?>"
+        >
+            <?php echo $linkPage; ?>
+        </a>
+        <?php endforeach; ?>
+
+        <?php if($items->hasNextPage()): ?>
+        <a
+            href="<?php echo $u->generate('AlbumDisplay', array('album' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $items->getNextPage())); ?>"
+            class="button next"
+        >&nbsp;</a>
+
+        <a
+            href="<?php echo $u->generate('AlbumDisplay', array('album' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $items->getLastPage())); ?>"
+            class="button last"
+        >&nbsp;</a>
+        <?php else: ?>
+        <span class="button next">&nbsp;</span>
+        <span class="button last">&nbsp;</span>
+        <?php endif; ?>
+    </div>
+    <?php endif; ?>
 </div>
 
 <script>
@@ -63,4 +128,16 @@ $('#gallery .item').each(
         maxWidth = Math.max(maxWidth, $(this).width());
     }
 ).width(maxWidth);
+
+$('.pagination').each(
+    function() {
+        var maxWidth = 0;
+
+        $(this).find('.page').each(
+            function() {
+                maxWidth = Math.max(maxWidth, $(this).width());
+            }
+        ).width(maxWidth);
+    }
+);
 </script>
