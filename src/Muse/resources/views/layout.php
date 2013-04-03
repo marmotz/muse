@@ -26,6 +26,12 @@
 
 <body>
 
+    <header>
+        <h1 id="pageTitle">
+            <?php $view['slots']->output('pageTitle', '') ?>
+        </h1>
+    </header>
+
     <?php $view['slots']->output('_content') ?>
 
     <!-- <aside>

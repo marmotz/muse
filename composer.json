@@ -16,6 +16,7 @@
         "symfony/event-dispatcher": "*",
         "symfony/finder"          : "*",
         "symfony/templating"      : "*",
+        "symfony/translation"     : "*",
         "doctrine/orm"            : "*"
     },
     "require-dev": {

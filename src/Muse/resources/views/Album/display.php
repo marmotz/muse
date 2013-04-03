@@ -2,18 +2,17 @@
 
 <?php $view['slots']->set('title', '/' . $albumPath) ?>
 
-<header>
-    <h1>
-        <a href="<?php echo $u->generate('AlbumDisplay', array('album' => '', 'nbPerPage' => $nbPerPage)); ?>">Home</a>
-        <?php $currentBreadCrumb = ''; ?>
-        <?php foreach(explode('/', trim($albumPath, '/')) as $breadCrumb): ?>
-        <?php $currentBreadCrumb .= '/' . $breadCrumb; ?>
-        &gt; <a href="<?php echo $u->generate('AlbumDisplay', array('album' => ltrim($currentBreadCrumb, '/'), 'nbPerPage' => $nbPerPage)); ?>">
-            <?php echo $breadCrumb; ?>
-        </a>
-        <?php endforeach; ?>
-    </h1>
-</header>
+<?php $view['slots']->start('pageTitle') ?>
+<a href="<?php echo $u->generate('AlbumDisplay', array('album' => '', 'nbPerPage' => $nbPerPage)); ?>">Home</a>
+<?php $currentBreadCrumb = ''; ?>
+<?php foreach(explode('/', trim($albumPath, '/')) as $breadCrumb): ?>
+<?php $currentBreadCrumb .= '/' . $breadCrumb; ?>
+&gt; <a href="<?php echo $u->generate('AlbumDisplay', array('album' => ltrim($currentBreadCrumb, '/'), 'nbPerPage' => $nbPerPage)); ?>">
+    <?php echo $breadCrumb; ?>
+</a>
+<?php endforeach; ?>
+<?php $view['slots']->stop() ?>
+
 
 <div id="gallery">
     <?php if(!$isRoot): ?>

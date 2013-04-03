@@ -35,7 +35,7 @@ class ArrayResponse implements EventSubscriberInterface
 
             $class = new \ReflectionClass($controller);
             $controllerFilename = $class->getFileName();
-            $viewsPath = dirname(dirname($controllerFilename)) . '/Views/%name%';
+            $viewsPath = dirname(dirname($controllerFilename)) . '/resources/views/%name%';
 
             $view = new PhpEngine(
                 new TemplateNameParser(),
