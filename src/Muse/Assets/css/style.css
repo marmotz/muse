@@ -107,6 +107,7 @@ header a:hover {
     background-color: #287AC8;
     color: white;
     margin-bottom: 2px;
+    border-radius: 5px;
 }
 
 #gallery .pagination a.page:hover {
@@ -116,7 +117,7 @@ header a:hover {
 
 #gallery .pagination a.current {
     background-color: #085AA8;
-    border: 1px solid #083A88;
+    border: 3px solid #083A88;
 }
 
 footer {
