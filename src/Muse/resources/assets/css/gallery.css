@@ -1,0 +1,26 @@
+#content > div.item {
+    display: inline-block;
+    box-shadow: 5px 5px 5px grey;
+    margin: 5px;
+    padding: 5px;
+    background-color: white;
+}
+
+#content > div.item:hover {
+    box-shadow: 0 0 5px grey;
+}
+
+#content > div.item a,
+#content > div.item p {
+    display: block;
+    text-align: center;
+}
+
+#content > div.item p {
+    margin: 0;
+    color: #186AB8;
+}
+
+#content > div.item .name {
+    font-size: 0.7em;
+}

@@ -10,14 +10,16 @@
         }
     ],
     "require": {
-        "symfony/http-foundation" : "*",
-        "symfony/routing"         : "*",
-        "symfony/http-kernel"     : "*",
+        "doctrine/orm"            : "*",
+        "symfony/config"          : "*",
         "symfony/event-dispatcher": "*",
         "symfony/finder"          : "*",
+        "symfony/http-foundation" : "*",
+        "symfony/http-kernel"     : "*",
+        "symfony/routing"         : "*",
         "symfony/templating"      : "*",
         "symfony/translation"     : "*",
-        "doctrine/orm"            : "*"
+        "symfony/yaml"            : "*"
     },
     "require-dev": {
         "atoum/atoum": "dev-master"

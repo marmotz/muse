@@ -19,29 +19,54 @@
     <link rel="stylesheet" href="<?php echo $view['assets']->getUrl('css/reset.css'); ?>" />
     <link rel="stylesheet" href="<?php echo $view['assets']->getUrl('css/style.css'); ?>" />
     <link rel="stylesheet" href="<?php echo $view['assets']->getUrl('css/fresco.css'); ?>" />
+    <?php $view['slots']->output('stylesheets', '') ?>
+</head>
+
+<body id="<?php echo $_controller . $_action; ?>" class="<?php echo $_controller; ?> <?php echo $_action; ?>">
+    <header>
+        <div id="menu">
+            <a href="<?php echo $url('Home') ?>">
+                <?php echo $_('menu.home'); ?>
+            </a>
+
+            <a href="<?php echo $url('UserSignIn') ?>">
+                <?php echo $_('menu.signin'); ?>
+            </a>
+        </div>
+        <div id="pageTitle">
+            <?php
+                $view['slots']->output(
+                    'pageTitle',
+                    $view['slots']->get(
+                        'title',
+                        ''
+                    )
+                );
+            ?>
+        </div>
+    </header>
+
+    <div id="content">
+        <?php $view['slots']->output('_content') ?>
+    </div>
+
+    <footer>
+        <p>
+            <small>
+                <?php
+                    echo $_(
+                        'footer.powered',
+                        array(
+                            '%name%' => '<a href="https://github.com/marmotz/muse">Muse</a>'
+                        )
+                    );
+                ?>
+            </small>
+        </p>
+    </footer>
 
     <script src="<?php echo $view['assets']->getUrl('js/jquery.js'); ?>"></script>
     <script src="<?php echo $view['assets']->getUrl('js/fresco.js'); ?>"></script>
-</head>
-
-<body>
-
-    <header>
-        <h1 id="pageTitle">
-            <?php $view['slots']->output('pageTitle', '') ?>
-        </h1>
-    </header>
-
-    <?php $view['slots']->output('_content') ?>
-
-    <!-- <aside>
-
-        <h2>Sidebar Content</h2>
-
-    </aside> -->
-
-    <footer>
-        <p><small>powered by muse</small></p>
-    </footer>
+    <?php $view['slots']->output('javascripts', '') ?>
 </body>
 </html>

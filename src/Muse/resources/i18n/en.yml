@@ -1,0 +1,16 @@
+title:
+  login:  Login
+
+breadcrumb:
+  home:   Home
+
+menu:
+  home:   Home
+  login:  Login
+
+form:
+  login:
+    login:  Login
+
+footer:
+  powered:  Powered by %name%

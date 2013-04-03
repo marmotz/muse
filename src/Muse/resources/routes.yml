@@ -1,0 +1,48 @@
+Home:
+    path:   /
+    defaults:
+        _controller:    Muse\Controller\Album::displayAction
+        album:          ''
+        page:           1
+        nbPerPage:      50
+
+AlbumDisplay:
+    path:   /album/{page}-{nbPerPage}/{album}
+    defaults:
+        _controller:    Muse\Controller\Album::displayAction
+        page:           1
+        nbPerPage:      50
+    requirements:
+        album:          .*
+        page:           "[0-9]+"
+        nbPerPage:      "[0-9]+"
+
+PhotoThumb:
+    path:   /photo/{width}x{height}/{photo}
+    defaults:
+        _controller:    Muse\Controller\Photo::thumbAction
+    requirements:
+        photo:          .*
+        width:          "[0-9]+"
+        height:         "[0-9]+"
+
+PhotoDisplay:
+    path:   /photo/{photo}
+    defaults:
+        _controller:    Muse\Controller\Photo::displayAction
+    requirements:
+        photo:          .*
+
+UserSignIn:
+    path:   /signin
+    defaults:
+        _controller:    Muse\Controller\User::signInAction
+
+UserLogin:
+    path:       /login
+    methods:    POST
+    defaults:
+        _controller:    Muse\Controller\User::loginAction
+    requirements:
+        login:          .*
+        password:       .*

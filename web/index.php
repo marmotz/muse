@@ -10,72 +10,35 @@ use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\HttpKernel\HttpCache\HttpCache;
 use Symfony\Component\HttpKernel\HttpCache\Store;
 
-
-// Routes
-$routes = new Routing\RouteCollection();
-$routes->add(
-    'Home',
-    new Routing\Route(
-        '/',
-        array(
-            '_controller' => 'Muse\\Controller\\Album::displayAction',
-            'album'       => '',
-            'page'        => 1,
-            'nbPerPage'   => 50,
-        )
-    )
-);
-
-$routes->add(
-    'AlbumDisplay',
-    new Routing\Route(
-        '/album/{page}-{nbPerPage}/{album}',
-        array(
-            '_controller' => 'Muse\\Controller\\Album::displayAction',
-            'page'        => 1,
-            'nbPerPage'   => 50,
-        ),
-        array(
-            'album'     => '.*',
-            'page'      => '[0-9]+',
-            'nbPerPage' => '[0-9]+',
-        )
-    )
-);
-
-$routes->add(
-    'PhotoThumb',
-    new Routing\Route(
-        '/photo/{width}x{height}/{photo}',
-        array(
-            '_controller' => 'Muse\\Controller\\Photo::thumbAction'
-        ),
-        array(
-            'photo'  => '.*',
-            'width'  => '[0-9]+',
-            'height' => '[0-9]+',
-        )
-    )
-);
-
-$routes->add(
-    'PhotoDisplay',
-    new Routing\Route(
-        '/photo/{photo}',
-        array(
-            '_controller' => 'Muse\\Controller\\Photo::displayAction'
-        ),
-        array(
-            'photo' => '.*'
-        )
-    )
-);
+require __DIR__ . '/../etc/db.php';
 
 // RUN
-$request   = Request::createFromGlobals();
-$framework = new Simplex\Framework($routes);
+$framework = new Simplex\Framework('../src/Muse');
 
-// $framework->addEventDispatcherSubscriber(new Simplex\Listener\GoogleAnalytics());
-$framework->addEventDispatcherSubscriber(new HttpKernel\EventListener\ExceptionListener('Muse\\Controller\\Error::exceptionAction'));
+$framework
+    ->addEventDispatcherSubscriber(
+        new HttpKernel\EventListener\ExceptionListener(
+            'Muse\\Controller\\Error::exceptionAction'
+        )
+    )
+    ->addEventDispatcherSubscriber(
+        new Simplex\EventListener\SessionStarter()
+    )
+    ->addEventDispatcherSubscriber(
+        new Simplex\EventListener\LocaleLoader(
+            'fr'
+        )
+    )
+    ->addEventDispatcherSubscriber(
+        new Simplex\EventListener\EntityManagerInjector(
+            $entityManager
+        )
+    )
+    // ->addEventDispatcherSubscriber(
+    //     new Simplex\EventListener\GoogleAnalytics()
+    // )
+;
 
-$framework->handle($request)->send();
+$framework->handle(
+    Request::createFromGlobals()
+)->send();

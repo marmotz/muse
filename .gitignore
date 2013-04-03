@@ -1,3 +1,5 @@
 /cache/*/
 /gallery/*/
 /vendor
+muse.sqlite
+*.php~

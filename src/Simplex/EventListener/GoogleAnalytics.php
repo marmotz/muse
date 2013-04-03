@@ -2,19 +2,19 @@
 
 namespace Simplex\EventListener;
 
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Simplex\Event;
 
 
-abstract class GoogleAnalytics implements EventSubscriberInterface
-{
-    public static function getSubscribedEvents()
-    {
-        return array('response' => 'onResponse');
+abstract class GoogleAnalytics implements EventSubscriberInterface {
+    public static function getSubscribedEvents() {
+        return array(
+            KernelEvents::RESPONSE => 'onResponse'
+        );
     }
 
-    public function onResponse(Event\Response $event)
-    {
+    public function onResponse(Event\Response $event) {
         $response = $event->getResponse();
 
         if ($response->isRedirection()

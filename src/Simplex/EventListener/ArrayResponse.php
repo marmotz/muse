@@ -4,16 +4,22 @@ namespace Simplex\EventListener;
 
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
+use Symfony\Component\HttpKernel\KernelEvents;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\Templating\PhpEngine;
-use Symfony\Component\Templating\TemplateNameParser;
-use Symfony\Component\Templating\Loader\FilesystemLoader;
 use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RequestContext;
+
+use Symfony\Component\Templating\PhpEngine;
+use Symfony\Component\Templating\TemplateNameParser;
+use Symfony\Component\Templating\Loader\FilesystemLoader;
 use Symfony\Component\Templating\Helper\SlotsHelper;
 use Symfony\Component\Templating\Helper\AssetsHelper;
 use Symfony\Component\Templating\Asset\PathPackage;
+
+use Symfony\Component\Translation\Translator;
+use Symfony\Component\Translation\MessageSelector;
+use Symfony\Component\Translation\Loader\YamlFileLoader;
 
 class ArrayResponse implements EventSubscriberInterface
 {
@@ -26,20 +32,29 @@ class ArrayResponse implements EventSubscriberInterface
         $this->context = $context;
     }
 
-    public function onView(GetResponseForControllerResultEvent $event)
-    {
+    public static function getSubscribedEvents() {
+        return array(
+            KernelEvents::VIEW => 'onView'
+        );
+    }
+
+    public function onView(GetResponseForControllerResultEvent $event) {
         $response = $event->getControllerResult();
 
         if (is_array($response)) {
-            list($controller, $action) = explode('::', $event->getRequest()->attributes->get('_controller'));
+            $request = $event->getRequest();
+
+            list($controller, $action) = explode('::', $request->attributes->get('_controller'));
 
             $class = new \ReflectionClass($controller);
             $controllerFilename = $class->getFileName();
-            $viewsPath = dirname(dirname($controllerFilename)) . '/resources/views/%name%';
+            $resourcePath = dirname(dirname($controllerFilename)) . '/resources';
 
             $view = new PhpEngine(
                 new TemplateNameParser(),
-                new FilesystemLoader($viewsPath)
+                new FilesystemLoader(
+                    $resourcePath . '/views/%name%'
+                )
             );
 
             $view->set(new SlotsHelper());
@@ -59,30 +74,44 @@ class ArrayResponse implements EventSubscriberInterface
                 )
             );
 
-            $templateFilename = sprintf(
-                '%s/%s.php',
-                substr(basename($controllerFilename), 0, -4),
-                substr($action, 0, -6)
-            );
+            // i18n
+            $translator = new Translator($request->getSession()->get('_locale'));
+            $translator->setFallbackLocale('en');
+            $translator->addLoader('yml', new YamlFileLoader());
+            $translator->addResource('yml', $resourcePath . '/i18n/fr.yml', 'fr');
+
+            // Routes
+            $urlGenerator = new UrlGenerator($this->routes, $this->context);
 
             $event->setResponse(
                 new Response(
                     $view->render(
-                        $templateFilename,
+                        sprintf(
+                            '%s/%s.php',
+                            substr(basename($controllerFilename), 0, -4),
+                            substr($action, 0, -6)
+                        ),
                         array_merge(
                             $response,
                             array(
-                                'u' => new UrlGenerator($this->routes, $this->context)
+                                '_controller' => sprintf(
+                                    '%s%sController',
+                                    substr($controller, 0, strpos($controller, '\\')),
+                                    substr($controller, strrpos($controller, '\\') + 1)
+                                ),
+                                '_action' => ucfirst($action),
+
+                                'url' => function($name, $parameters = array(), $referenceType = UrlGenerator::ABSOLUTE_PATH) use($urlGenerator) {
+                                    return $urlGenerator->generate($name, $parameters, $referenceType);
+                                },
+                                '_' => function($id, array $parameters = array(), $domain = 'messages', $locale = null) use($translator) {
+                                    return $translator->trans($id, $parameters, $domain, $locale);
+                                },
                             )
                         )
                     )
                 )
             );
         }
-    }
-
-    public static function getSubscribedEvents()
-    {
-        return array('kernel.view' => 'onView');
     }
 }

@@ -7,6 +7,55 @@ a:hover {
     text-decoration: underline;
 }
 
+form {
+    border: 1px solid #999;
+    padding: 10px;
+    background-color: white;
+}
+
+input, textarea {
+    padding: 9px;
+    border: solid 1px #E5E5E5;
+    outline: 0;
+    font: normal 13px/100% Verdana, Tahoma, sans-serif;
+    width: 200px;
+    background: #FFFFFF url('bg_form.png') left top repeat-x;
+    background: -webkit-gradient(linear, left top, left 25, from(#FFFFFF), color-stop(4%, #EEEEEE), to(#FFFFFF));
+    background: -moz-linear-gradient(top, #FFFFFF, #EEEEEE 1px, #FFFFFF 25px);
+    box-shadow: rgba(0,0,0, 0.1) 0px 0px 8px;
+}
+
+textarea {
+    width: 400px;
+    max-width: 400px;
+    height: 150px;
+    line-height: 150%;
+}
+
+input:hover, textarea:hover,
+input:focus, textarea:focus {
+    border-color: #C9C9C9;
+    box-shadow: rgba(0,0,0, 0.15) 0px 0px 8px;
+}
+
+form label {
+    display: block;
+    color: #999999;
+}
+
+input[type=submit] {
+    width: 200px;
+    padding: 10px;
+    background: #617798;
+    border: 0;
+    font-size: 14px;
+    color: #FFFFFF;
+    border-radius: 5px;
+    cursor: pointer;
+    margin: 0 auto;
+    display: block;
+}
+
 header, footer {
     border: 5px solid #CCC;
     border-radius: 10px;
@@ -17,12 +66,6 @@ header, footer {
     margin: 10px;
 }
 
-header h1 {
-    margin: 0;
-    font-size: 1em;
-    text-shadow: 1px 1px 1px black;
-}
-
 header a {
     color: #DDD;
 }
@@ -31,96 +74,33 @@ header a:hover {
     color: white;
 }
 
-#gallery {
+header #pageTitle {
+    font-weight: bold;
+    text-shadow: 1px 1px 1px black;
+}
+
+header #menu {
+    float: right;
+}
+
+header #menu a {
+    display: inline-block;
+    padding: 0 5px;
+}
+
+#content {
     border: 1px solid #999;
     border-radius: 10px;
     background-color: #CCC;
     margin: 10px;
 }
 
-#gallery > div.item {
-    display: inline-block;
-    box-shadow: 5px 5px 5px grey;
-    margin: 5px;
-    padding: 5px;
-    background-color: white;
-}
-
-#gallery > div.item:hover {
-    box-shadow: 0 0 5px grey;
-}
-
-#gallery > div.item a,
-#gallery > div.item p {
-    display: block;
-    text-align: center;
-}
-
-#gallery > div.item p {
-    margin: 0;
-    color: #186AB8;
-}
-
-#gallery > div.item .name {
-    font-size: 0.7em;
-}
-
-#gallery .pagination {
-    text-align: center;
-    margin: 10px;
-}
-
-#gallery .pagination a,
-#gallery .pagination span {
-    display: inline-block;
-}
-
-#gallery .pagination .button {
-    width: 25px;
-    height: 18px;
-    background-position: center;
-    background-repeat: no-repeat;
-}
-
-#gallery .pagination span.button {
-    opacity: 0.2;
-}
-
-#gallery .pagination .first {
-    background-image: url(../img/first.png);
-}
-
-#gallery .pagination .previous {
-    background-image: url(../img/previous.png);
-}
-
-#gallery .pagination .next {
-    background-image: url(../img/next.png);
-}
-
-#gallery .pagination .last {
-    background-image: url(../img/last.png);
-}
-
-#gallery .pagination a.page {
-    padding: 3px 8px;
-    background-color: #287AC8;
-    color: white;
-    margin-bottom: 2px;
-    border-radius: 5px;
-}
-
-#gallery .pagination a.page:hover {
-    text-decoration: none;
-    background-color: #489AE8;
-}
-
-#gallery .pagination a.current {
-    background-color: #085AA8;
-    border: 3px solid #083A88;
-}
-
 footer {
     clear: both;
     text-align: center;
+}
+
+footer a {
+    color: white;
+    text-decoration: underline;
 }

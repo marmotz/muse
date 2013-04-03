@@ -2,15 +2,28 @@
 
 namespace Simplex;
 
-use Symfony\Component\Routing;
-use Symfony\Component\HttpKernel;
+use Symfony\Component\Config\FileLocator;
 use Symfony\Component\EventDispatcher\EventDispatcher;
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
+use Symfony\Component\HttpKernel;
+use Symfony\Component\Routing;
 
-class Framework extends HttpKernel\HttpKernel
-{
-    public function __construct(Routing\RouteCollection $routes)
-    {
+class Framework extends HttpKernel\HttpKernel {
+    public function __construct($projectsRootPath) {
+        $projectsRootPath = (array) $projectsRootPath;
+
+        $routes = new Routing\RouteCollection;
+
+        foreach($projectsRootPath as $projectRootPath) {
+            $loader = new Routing\Loader\YamlFileLoader(
+                new FileLocator($projectRootPath . '/resources')
+            );
+
+            $routes->addCollection(
+                $loader->load('routes.yml')
+            );
+        }
+
         $context  = new Routing\RequestContext();
         $matcher  = new Routing\Matcher\UrlMatcher($routes, $context);
         $resolver = new HttpKernel\Controller\ControllerResolver();
@@ -18,9 +31,9 @@ class Framework extends HttpKernel\HttpKernel
         $dispatcher = new EventDispatcher();
         $dispatcher->addSubscriber(new HttpKernel\EventListener\RouterListener($matcher));
         $dispatcher->addSubscriber(new HttpKernel\EventListener\ResponseListener('UTF-8'));
-        $dispatcher->addSubscriber(new EventListener\ContentLength());
         $dispatcher->addSubscriber(new EventListener\ArrayResponse($routes, $context));
         $dispatcher->addSubscriber(new EventListener\StringResponse());
+        $dispatcher->addSubscriber(new EventListener\ContentLength());
 
         parent::__construct($dispatcher, $resolver);
     }
@@ -28,5 +41,7 @@ class Framework extends HttpKernel\HttpKernel
 
     public function addEventDispatcherSubscriber(EventSubscriberInterface $subscriber) {
         $this->dispatcher->addSubscriber($subscriber);
+
+        return $this;
     }
 }
