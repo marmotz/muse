@@ -3,19 +3,27 @@
 <?php $view['slots']->set('title', $_('title.login')) ?>
 
 <?php $view['slots']->start('stylesheets'); ?>
-    <link rel="stylesheet" href="<?php echo $view['assets']->getUrl('css/login.css'); ?>" />
+    <link rel="stylesheet" href="<?php echo $view['assets']->getUrl('css/signin.css'); ?>" />
 <?php $view['slots']->stop(); ?>
 
 <?php $view['slots']->start('javascripts'); ?>
-    <script src="<?php echo $view['assets']->getUrl('js/login.js'); ?>"></script>
+    <!--script src="<?php echo $view['assets']->getUrl('js/signin.js'); ?>"></script-->
 <?php $view['slots']->stop(); ?>
 
 <form action="<?php echo $url('UserLogin'); ?>" method="POST">
+    <?php if($_session->getFlashBag()->has('error')): ?>
+        <div class="message error">
+            <?php foreach($_session->getFlashBag()->get('error') as $error): ?>
+                <p><?php echo $_($error); ?></p>
+            <?php endforeach; ?>
+        </div>
+    <?php endif; ?>
+
     <p>
-        <label for="login">
-            <?php echo $_('form.login.login') ?>
+        <label for="email">
+            <?php echo $_('form.login.email') ?>
         </label>
-        <input type="text" id="login" name="login" />
+        <input type="text" id="email" name="email" />
     </p>
 
     <p>

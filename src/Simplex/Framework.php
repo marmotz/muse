@@ -29,19 +29,44 @@ class Framework extends HttpKernel\HttpKernel {
         $resolver = new HttpKernel\Controller\ControllerResolver();
 
         $dispatcher = new EventDispatcher();
+        $dispatcher->addSubscriber(new EventListener\SessionStarter());
         $dispatcher->addSubscriber(new HttpKernel\EventListener\RouterListener($matcher));
         $dispatcher->addSubscriber(new HttpKernel\EventListener\ResponseListener('UTF-8'));
         $dispatcher->addSubscriber(new EventListener\ArrayResponse($routes, $context));
+        $dispatcher->addSubscriber(new EventListener\UrlGeneratorInjector($routes, $context));
         $dispatcher->addSubscriber(new EventListener\StringResponse());
         $dispatcher->addSubscriber(new EventListener\ContentLength());
 
         parent::__construct($dispatcher, $resolver);
     }
 
-
     public function addEventDispatcherSubscriber(EventSubscriberInterface $subscriber) {
         $this->dispatcher->addSubscriber($subscriber);
 
         return $this;
+    }
+
+    public function setErrorController($errorController) {
+        return $this->addEventDispatcherSubscriber(
+            new HttpKernel\EventListener\ExceptionListener(
+                $errorController
+            )
+        );
+    }
+
+    public function setDefaultLocale($defaultLocale) {
+        return $this->addEventDispatcherSubscriber(
+            new EventListener\LocaleLoader(
+                $defaultLocale
+            )
+        );
+    }
+
+    public function setEntityManager(\Doctrine\ORM\EntityManager $entityManager) {
+        return $this->addEventDispatcherSubscriber(
+            new EventListener\EntityManagerInjector(
+                $entityManager
+            )
+        );
     }
 }

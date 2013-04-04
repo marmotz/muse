@@ -21,8 +21,7 @@ use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\MessageSelector;
 use Symfony\Component\Translation\Loader\YamlFileLoader;
 
-class ArrayResponse implements EventSubscriberInterface
-{
+class ArrayResponse implements EventSubscriberInterface {
     protected $routes;
     protected $context;
 
@@ -100,6 +99,8 @@ class ArrayResponse implements EventSubscriberInterface
                                     substr($controller, strrpos($controller, '\\') + 1)
                                 ),
                                 '_action' => ucfirst($action),
+                                '_request' => $request,
+                                '_session' => $request->getSession(),
 
                                 'url' => function($name, $parameters = array(), $referenceType = UrlGenerator::ABSOLUTE_PATH) use($urlGenerator) {
                                     return $urlGenerator->generate($name, $parameters, $referenceType);

@@ -2,7 +2,7 @@
 
 namespace Muse\Controller;
 
-use Symfony\Component\HttpFoundation\StreamedResponse;
+use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Photo {
     static public function getCacheRootPath() {
@@ -64,10 +64,8 @@ class Photo {
             $thumb->writeImage($thumbPath);
         }
 
-        return new StreamedResponse(
-            function() use($thumbPath) {
-                readfile($thumbPath);
-            },
+        return new BinaryFileResponse(
+            $thumbPath,
             200,
             array(
                 'content-type' => 'image/' . substr($thumbPath, strrpos($thumbPath, '.') + 1)
@@ -79,10 +77,8 @@ class Photo {
     public function displayAction($photo) {
         $photoPath = Album::getItemFullPath($photo);
 
-        return new StreamedResponse(
-            function() use($photoPath) {
-                readfile($photoPath);
-            },
+        return new BinaryFileResponse(
+            $photoPath,
             200,
             array(
                 'content-type' => 'image/' . substr($photoPath, strrpos($photoPath, '.') + 1)

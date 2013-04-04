@@ -3,7 +3,7 @@
 namespace Muse\Entity;
 
 /**
- * @Entity
+ * @Entity(repositoryClass="Muse\Entity\Repository\User")
  */
 class User {
     /**
@@ -14,14 +14,9 @@ class User {
     private $id;
 
     /**
-     * @Column(type="string", length=32)
-     */
-    private $login;
-
-    /**
      * @Column(type="string", length=64)
      */
-    private $mail;
+    private $email;
 
     /**
      * @Column(type="string", length=40)
@@ -39,6 +34,11 @@ class User {
     private $isAdmin;
 
     /**
+     * @Column(type="string", length=32)
+     */
+    private $name;
+
+    /**
      * Get id
      *
      * @return integer
@@ -46,52 +46,6 @@ class User {
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set login
-     *
-     * @param string $login
-     * @return User
-     */
-    public function setLogin($login)
-    {
-        $this->login = $login;
-    
-        return $this;
-    }
-
-    /**
-     * Get login
-     *
-     * @return string 
-     */
-    public function getLogin()
-    {
-        return $this->login;
-    }
-
-    /**
-     * Set mail
-     *
-     * @param string $mail
-     * @return User
-     */
-    public function setMail($mail)
-    {
-        $this->mail = $mail;
-    
-        return $this;
-    }
-
-    /**
-     * Get mail
-     *
-     * @return string 
-     */
-    public function getMail()
-    {
-        return $this->mail;
     }
 
     /**
@@ -103,14 +57,14 @@ class User {
     public function setPassword($password)
     {
         $this->password = $password;
-    
+
         return $this;
     }
 
     /**
      * Get password
      *
-     * @return string 
+     * @return string
      */
     public function getPassword()
     {
@@ -126,14 +80,14 @@ class User {
     public function setSalt($salt)
     {
         $this->salt = $salt;
-    
+
         return $this;
     }
 
     /**
      * Get salt
      *
-     * @return string 
+     * @return string
      */
     public function getSalt()
     {
@@ -149,17 +103,73 @@ class User {
     public function setIsAdmin($isAdmin)
     {
         $this->isAdmin = $isAdmin;
-    
+
         return $this;
     }
 
     /**
      * Get isAdmin
      *
-     * @return boolean 
+     * @return boolean
      */
     public function getIsAdmin()
     {
         return $this->isAdmin;
+    }
+
+    /**
+     * Set email
+     *
+     * @param string $email
+     * @return User
+     */
+    public function setEmail($email)
+    {
+        $this->email = $email;
+
+        return $this;
+    }
+
+    /**
+     * Get email
+     *
+     * @return string
+     */
+    public function getEmail()
+    {
+        return $this->email;
+    }
+
+
+    public function cryptPassword($password) {
+        return sha1($password . $this->getSalt());
+    }
+
+
+    public function isPasswordValid($password) {
+        return $this->getPassword() === $this->cryptPassword($password);
+    }
+
+    /**
+     * Set name
+     *
+     * @param string $name
+     * @return User
+     */
+    public function setName($name)
+    {
+        $this->name = $name;
+    
+        return $this;
+    }
+
+    /**
+     * Get name
+     *
+     * @return string 
+     */
+    public function getName()
+    {
+        return $this->name;
     }
 }

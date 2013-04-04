@@ -16,24 +16,9 @@ require __DIR__ . '/../etc/db.php';
 $framework = new Simplex\Framework('../src/Muse');
 
 $framework
-    ->addEventDispatcherSubscriber(
-        new HttpKernel\EventListener\ExceptionListener(
-            'Muse\\Controller\\Error::exceptionAction'
-        )
-    )
-    ->addEventDispatcherSubscriber(
-        new Simplex\EventListener\SessionStarter()
-    )
-    ->addEventDispatcherSubscriber(
-        new Simplex\EventListener\LocaleLoader(
-            'fr'
-        )
-    )
-    ->addEventDispatcherSubscriber(
-        new Simplex\EventListener\EntityManagerInjector(
-            $entityManager
-        )
-    )
+    ->setErrorController('Muse\\Controller\\Error::exceptionAction')
+    ->setDefaultLocale('fr')
+    ->setEntityManager($entityManager)
     // ->addEventDispatcherSubscriber(
     //     new Simplex\EventListener\GoogleAnalytics()
     // )

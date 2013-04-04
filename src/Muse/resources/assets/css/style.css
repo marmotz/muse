@@ -43,6 +43,26 @@ form label {
     color: #999999;
 }
 
+form .message {
+    text-align: justify;
+}
+
+form .error {
+    color: #b94a48;
+}
+
+form .warning {
+    color: #c09853;
+}
+
+form .succes {
+    color: #468847;
+}
+
+form .info {
+    color: #3a87ad;
+}
+
 input[type=submit] {
     width: 200px;
     padding: 10px;
@@ -85,7 +105,13 @@ header #menu {
 
 header #menu a {
     display: inline-block;
-    padding: 0 5px;
+    padding: 0 10px 0 5px;
+    border-right: 1px solid black;
+}
+
+header #menu a:last-child {
+    padding-right: 0;
+    border: none;
 }
 
 #content {

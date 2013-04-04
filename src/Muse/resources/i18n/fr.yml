@@ -5,14 +5,16 @@ breadcrumb:
   home:   Accueil
 
 menu:
-  home:   Accueil
-  signin: Se connecter
+  home:     Accueil
+  signin:   Se connecter
+  signout:  Se déconnecter
 
 form:
   login:
-    login:    Login
-    password: Mot de passe
-    submit:   Se connecter
+    email:        Email
+    password:     Mot de passe
+    submit:       Se connecter
+    unknownuser:  Utilisateur inconnu. Vérifiez que avez mis le bon login ou email et que vous ne vous êtes pas trompé dans le mot de passe.
 
 footer:
   powered:  Propulsé par %name%

@@ -29,9 +29,19 @@
                 <?php echo $_('menu.home'); ?>
             </a>
 
-            <a href="<?php echo $url('UserSignIn') ?>">
-                <?php echo $_('menu.signin'); ?>
-            </a>
+            <?php if($_session->has('user')): ?>
+                <a>
+                    <?php echo $_session->get('user')->getName(); ?>
+                </a>
+
+                <a href="<?php echo $url('UserSignOut') ?>">
+                    <?php echo $_('menu.signout'); ?>
+                </a>
+            <?php else: ?>
+                <a href="<?php echo $url('UserSignIn') ?>">
+                    <?php echo $_('menu.signin'); ?>
+                </a>
+            <?php endif; ?>
         </div>
         <div id="pageTitle">
             <?php

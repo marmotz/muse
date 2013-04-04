@@ -34,7 +34,8 @@ PhotoDisplay:
         photo:          .*
 
 UserSignIn:
-    path:   /signin
+    path:       /signin
+    methods:    GET
     defaults:
         _controller:    Muse\Controller\User::signInAction
 
@@ -46,3 +47,9 @@ UserLogin:
     requirements:
         login:          .*
         password:       .*
+
+UserSignOut:
+    path:       /signout
+    methods:    GET
+    defaults:
+        _controller:    Muse\Controller\User::signOutAction

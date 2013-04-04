@@ -5,12 +5,16 @@ breadcrumb:
   home:   Home
 
 menu:
-  home:   Home
-  login:  Login
+  home:     Home
+  signin:   Sign in
+  signout:  Sign out
 
 form:
   login:
-    login:  Login
+    email:        Email
+    password:     Password
+    submit:       Sign in
+    unknownuser:  User unknown. Please check your login or email and your password is correct.
 
 footer:
   powered:  Powered by %name%
