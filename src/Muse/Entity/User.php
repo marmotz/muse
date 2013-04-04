@@ -144,8 +144,6 @@ class User {
             for($i = 0; $i < 32; $i++) {
                 $this->salt .= chr(rand(33, 126));
             }
-
-            var_dump($this->salt);
         }
 
         return $this->salt;
