@@ -17,4 +17,11 @@ $dbParams = array(
 );
 
 $config = Setup::createAnnotationMetadataConfiguration($paths, $isDevMode);
+$config->setProxyDir(__DIR__ . '/../cache/Proxies');
+$config->setAutoGenerateProxyClasses(false);
+$config->setSQLLogger(
+    new Simplex\Sql\Logger\File(
+        __DIR__ . '/../logs/sql.log'
+    )
+);
 $entityManager = EntityManager::create($dbParams, $config);

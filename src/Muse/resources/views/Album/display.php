@@ -20,7 +20,7 @@
         <?php $currentBreadCrumb = ''; ?>
         <?php foreach(explode('/', trim($albumPath, '/')) as $breadCrumb): ?>
             <?php $currentBreadCrumb .= '/' . $breadCrumb; ?>
-            &gt; <a href="<?php echo $url('AlbumDisplay', array('album' => ltrim($currentBreadCrumb, '/'), 'nbPerPage' => $nbPerPage)); ?>">
+            &gt; <a href="<?php echo $url('AlbumDisplay', array('albumPath' => ltrim($currentBreadCrumb, '/'), 'nbPerPage' => $nbPerPage)); ?>">
                 <?php echo $breadCrumb; ?>
             </a>
         <?php endforeach; ?>
@@ -28,9 +28,24 @@
 <?php $view['slots']->stop() ?>
 
 
+<?php if($_session->has('user') && $_session->get('user')->isAdmin()): ?>
+    <div id="tools">
+        <?php if(!$protection): ?>
+            <a href="<?php echo $url('AlbumProtect', array('albumPath' => $albumPath)) ?>">
+                <?php echo $_('tools.protect'); ?>
+            </a>
+        <?php elseif($protection->getPath() === $albumPath): ?>
+            <a href="<?php echo $url('AlbumUnprotect', array('albumPath' => $albumPath)) ?>">
+                <?php echo $_('tools.unprotect'); ?>
+            </a>
+        <?php endif; ?>
+    </div>
+<?php endif; ?>
+
+
 <?php if(!$isRoot): ?>
     <div class="item folder parent">
-        <a href="<?php echo $url('AlbumDisplay', array('album' => dirname($albumPath), 'nbPerPage' => $nbPerPage)); ?>" class="image">
+        <a href="<?php echo $url('AlbumDisplay', array('albumPath' => dirname($albumPath), 'nbPerPage' => $nbPerPage)); ?>" class="image">
             <img src="<?php echo $view['assets']->getUrl('img/parent.png'); ?>" width="150" height="150" />
         </a>
         <p class="name">
@@ -53,7 +68,7 @@
     <?php $currentItemPath = ltrim($albumPath . '/' . $item->getName(), '/'); ?>
     <div class="item <?php echo $item->getType(); ?>">
         <?php if($item->isAlbum()): ?>
-            <a href="<?php echo $url('AlbumDisplay', array('album' => $currentItemPath, 'nbPerPage' => $nbPerPage)); ?>" class="image">
+            <a href="<?php echo $url('AlbumDisplay', array('albumPath' => $currentItemPath, 'nbPerPage' => $nbPerPage)); ?>" class="image">
                 <img src="<?php echo $view['assets']->getUrl('img/folder.png'); ?>" width="150" height="150" />
             </a>
         <?php else: ?>
@@ -92,12 +107,12 @@
 
         <?php if($items->hasPreviousPage()): ?>
             <a
-                href="<?php echo $url('AlbumDisplay', array('album' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $items->getFirstPage())); ?>"
+                href="<?php echo $url('AlbumDisplay', array('albumPath' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $items->getFirstPage())); ?>"
                 class="button first"
             >&nbsp;</a>
 
             <a
-                href="<?php echo $url('AlbumDisplay', array('album' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $items->getPreviousPage())); ?>"
+                href="<?php echo $url('AlbumDisplay', array('albumPath' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $items->getPreviousPage())); ?>"
                 class="button previous"
             >&nbsp;</a>
         <?php else: ?>
@@ -107,7 +122,7 @@
 
         <?php foreach($pages as $linkPage): ?>
             <a
-                href="<?php echo $url('AlbumDisplay', array('album' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $linkPage)); ?>"
+                href="<?php echo $url('AlbumDisplay', array('albumPath' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $linkPage)); ?>"
                 class="page<?php if((int) $linkPage === (int) $page): ?> current<?php endif; ?>"
             >
                 <?php echo $linkPage; ?>
@@ -116,12 +131,12 @@
 
         <?php if($items->hasNextPage()): ?>
             <a
-                href="<?php echo $url('AlbumDisplay', array('album' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $items->getNextPage())); ?>"
+                href="<?php echo $url('AlbumDisplay', array('albumPath' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $items->getNextPage())); ?>"
                 class="button next"
             >&nbsp;</a>
 
             <a
-                href="<?php echo $url('AlbumDisplay', array('album' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $items->getLastPage())); ?>"
+                href="<?php echo $url('AlbumDisplay', array('albumPath' => $albumPath, 'nbPerPage' => $nbPerPage, 'page' => $items->getLastPage())); ?>"
                 class="button last"
             >&nbsp;</a>
         <?php else: ?>

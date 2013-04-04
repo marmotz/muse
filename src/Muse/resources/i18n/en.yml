@@ -1,5 +1,7 @@
 title:
-  login:  Login
+  login:      Login
+  protect:    Protect an album
+  unprotect:  Unprotect an album
 
 breadcrumb:
   home:   Home
@@ -9,12 +11,29 @@ menu:
   signin:   Sign in
   signout:  Sign out
 
+gallery:
+  parent: Parent
+
 form:
   login:
     email:        Email
     password:     Password
     submit:       Sign in
     unknownuser:  User unknown. Please check your login or email and your password is correct.
+  protect:
+    intro:          Please, type your password to crypt this album.
+    password:       Password
+    submit:         Protect this album
+    wrongpassword:  Wrong password.
+  unprotect:
+    intro:          Please, type your password to decrypt this album.
+    password:       Password
+    submit:         Unprotect this album
+    wrongpassword:  Wrong password.
+
+tools:
+  protect:    Protect
+  unprotect:  Unprotect
 
 footer:
   powered:  Powered by %name%

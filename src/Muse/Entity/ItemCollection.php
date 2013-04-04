@@ -5,7 +5,7 @@ namespace Muse\Entity;
 use Simplex\Entity\Paginator;
 
 class ItemCollection implements \Iterator {
-    protected $collection;
+    protected $collection = array();
 
     protected $pointer;
 

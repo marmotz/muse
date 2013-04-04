@@ -38,7 +38,20 @@ class User {
      */
     private $isAdmin;
 
+    /**
+    * @OneToMany(targetEntity="Protection", mappedBy="protector")
+     */
+    private $protections;
 
+
+
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->protections = new \Doctrine\Common\Collections\ArrayCollection();
+    }
     /**
      * Get id
      *
@@ -108,6 +121,17 @@ class User {
         return $this;
     }
 
+    public function setPlainPassword($password) {
+        return $this->setPassword(
+            $this->cryptPassword($password)
+        );
+    }
+
+
+    public function cryptPassword($password) {
+        return sha1($password . $this->getSalt());
+    }
+
     /**
      * Get password
      *
@@ -116,6 +140,11 @@ class User {
     public function getPassword()
     {
         return $this->password;
+    }
+
+
+    public function isPasswordValid($password) {
+        return $this->getPassword() === $this->cryptPassword($password);
     }
 
     /**
@@ -172,19 +201,40 @@ class User {
         return $this->isAdmin;
     }
 
-
-    public function cryptPassword($password) {
-        return sha1($password . $this->getSalt());
+    public function isAdmin() {
+        return $this->getIsAdmin();
     }
 
+    /**
+     * Add protections
+     *
+     * @param \Muse\Entity\Protection $protections
+     * @return User
+     */
+    public function addProtection(\Muse\Entity\Protection $protections)
+    {
+        $this->protections[] = $protections;
 
-    public function isPasswordValid($password) {
-        return $this->getPassword() === $this->cryptPassword($password);
+        return $this;
     }
 
-    public function setPlainPassword($password) {
-        return $this->setPassword(
-            $this->cryptPassword($password)
-        );
+    /**
+     * Remove protections
+     *
+     * @param \Muse\Entity\Protection $protections
+     */
+    public function removeProtection(\Muse\Entity\Protection $protections)
+    {
+        $this->protections->removeElement($protections);
+    }
+
+    /**
+     * Get protections
+     *
+     * @return \Doctrine\Common\Collections\Collection
+     */
+    public function getProtections()
+    {
+        return $this->protections;
     }
 }

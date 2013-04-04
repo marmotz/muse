@@ -2,6 +2,7 @@
 /bin/doctrine*
 /cache/*/
 /gallery/*/
+/logs/*.log
 /vendor
 muse.sqlite
 *.php~

@@ -28,10 +28,18 @@ class User implements EntityManagerInjectable, UrlGeneratorInjectable {
         ;
 
         if($user && $user->isPasswordValid($password)) {
-            $request->getSession()->set('user', $user);
+            $session = $request->getSession();
+            $session->set('user', $user);
 
             return new RedirectResponse(
-                $this->getUrlGenerator()->generate('Home')
+                $this->getUrlGenerator()->generate(
+                    'AlbumDisplay',
+                    array(
+                        'albumPath' => $session->get('lastAlbumPath', ''),
+                        'page'      => $session->get('lastPage',      1),
+                        'nbPerPage' => $session->get('lastNbPerPage', 50),
+                    )
+                )
             );
         }
         else {
@@ -50,7 +58,14 @@ class User implements EntityManagerInjectable, UrlGeneratorInjectable {
         $request->getSession()->remove('user');
 
         return new RedirectResponse(
-            $this->getUrlGenerator()->generate('Home')
+            $this->getUrlGenerator()->generate(
+                'AlbumDisplay',
+                array(
+                    'albumPath' => $session->get('lastAlbumPath', ''),
+                    'page'      => $session->get('lastPage',      1),
+                    'nbPerPage' => $session->get('lastNbPerPage', 50),
+                )
+            )
         );
     }
 }

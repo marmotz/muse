@@ -1,5 +1,7 @@
 title:
-  login:  Connexion
+  login:      Connexion
+  protect:    Protection d'un album
+  unprotect:  Déprotection d'un album
 
 breadcrumb:
   home:   Accueil
@@ -9,12 +11,29 @@ menu:
   signin:   Se connecter
   signout:  Se déconnecter
 
+gallery:
+  parent: Parent
+
 form:
   login:
     email:        Email
     password:     Mot de passe
     submit:       Se connecter
     unknownuser:  Utilisateur inconnu. Vérifiez que avez mis le bon login ou email et que vous ne vous êtes pas trompé dans le mot de passe.
+  protect:
+    intro:          Veuillez saisir votre mot de passe afin de crypter cet album.
+    password:       Mot de passe
+    submit:         Protéger cet album
+    wrongpassword:  Mot de passe incorrect.
+  unprotect:
+    intro:          Veuillez saisir votre mot de passe afin de décrypter cet album.
+    password:       Mot de passe
+    submit:         Déprotéger cet album
+    wrongpassword:  Mot de passe incorrect.
+
+tools:
+  protect:    Protéger
+  unprotect:  Déprotéger
 
 footer:
   powered:  Propulsé par %name%

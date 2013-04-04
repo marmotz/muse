@@ -1,0 +1,9 @@
+#!/bin/sh
+
+./bin/doctrine orm:generate-entities src
+./bin/doctrine orm:generate-repositories src
+./bin/doctrine orm:generate-proxies
+./bin/doctrine orm:schema-tool:drop --force
+./bin/doctrine orm:schema-tool:create
+./bin/load-fixtures
+sqlite3 muse.sqlite ".dump"

@@ -2,20 +2,56 @@ Home:
     path:   /
     defaults:
         _controller:    Muse\Controller\Album::displayAction
-        album:          ''
+        albumPath:      ''
         page:           1
         nbPerPage:      50
 
+
+
 AlbumDisplay:
-    path:   /album/{page}-{nbPerPage}/{album}
+    path:   /album/{page}-{nbPerPage}/{albumPath}
     defaults:
         _controller:    Muse\Controller\Album::displayAction
         page:           1
         nbPerPage:      50
     requirements:
-        album:          .*
+        albumPath:      .*
         page:           "[0-9]+"
         nbPerPage:      "[0-9]+"
+
+AlbumProtect:
+    path:       /album/protect/{albumPath}
+    methods:    GET
+    defaults:
+        _controller:    Muse\Controller\Album::protectAction
+    requirements:
+        albumPath:      .*
+
+AlbumCrypt:
+    path:       /album/crypt/{albumPath}
+    methods:    POST
+    defaults:
+        _controller:    Muse\Controller\Album::cryptAction
+    requirements:
+        albumPath:      .*
+
+AlbumUnprotect:
+    path:       /album/unprotect/{albumPath}
+    methods:    GET
+    defaults:
+        _controller:    Muse\Controller\Album::unprotectAction
+    requirements:
+        albumPath:      .*
+
+AlbumDecrypt:
+    path:       /album/decrypt/{albumPath}
+    methods:    POST
+    defaults:
+        _controller:    Muse\Controller\Album::decryptAction
+    requirements:
+        albumPath:      .*
+
+
 
 PhotoThumb:
     path:   /photo/{width}x{height}/{photo}
@@ -32,6 +68,8 @@ PhotoDisplay:
         _controller:    Muse\Controller\Photo::displayAction
     requirements:
         photo:          .*
+
+
 
 UserSignIn:
     path:       /signin
