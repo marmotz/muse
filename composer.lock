@@ -1,5 +1,5 @@
 {
-    "hash": "1caba414b6efcdc128c294bef73939a3",
+    "hash": "788d20a4e7d6406df58917db60d8b8f3",
     "packages": [
         {
             "name": "doctrine/common",
@@ -69,6 +69,61 @@
                 "spl"
             ],
             "time": "2012-09-19 22:55:18"
+        },
+        {
+            "name": "doctrine/data-fixtures",
+            "version": "dev-master",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/doctrine/data-fixtures.git",
+                "reference": "eef10f6b92706bdae2841a8fdeb45ad8999b15b3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/doctrine/data-fixtures/zipball/eef10f6b92706bdae2841a8fdeb45ad8999b15b3",
+                "reference": "eef10f6b92706bdae2841a8fdeb45ad8999b15b3",
+                "shasum": ""
+            },
+            "require": {
+                "doctrine/common": ">=2.2,<2.5-dev",
+                "php": ">=5.3.2"
+            },
+            "require-dev": {
+                "doctrine/orm": ">=2.2,<2.5-dev"
+            },
+            "suggest": {
+                "doctrine/mongodb-odm": "For loading MongoDB ODM fixtures",
+                "doctrine/orm": "For loading ORM fixtures",
+                "doctrine/phpcr-odm": "For loading PHPCR ODM fixtures"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "1.0.x-dev"
+                }
+            },
+            "autoload": {
+                "psr-0": {
+                    "Doctrine\\Common\\DataFixtures": "lib/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Jonathan H. Wage",
+                    "email": "jonwage@gmail.com",
+                    "homepage": "http://www.jwage.com/"
+                }
+            ],
+            "description": "Data Fixtures for all Doctrine Object Managers",
+            "homepage": "http://www.doctrine-project.org",
+            "keywords": [
+                "database"
+            ],
+            "time": "2013-03-11 00:25:48"
         },
         {
             "name": "doctrine/dbal",
@@ -770,12 +825,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/atoum/atoum.git",
-                "reference": "bda28b1652c959b9ad1269e817ebb9c42ae2ae79"
+                "reference": "4ee0e45eb249972eec0e56816706cb710967d803"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atoum/atoum/zipball/bda28b1652c959b9ad1269e817ebb9c42ae2ae79",
-                "reference": "bda28b1652c959b9ad1269e817ebb9c42ae2ae79",
+                "url": "https://api.github.com/repos/atoum/atoum/zipball/4ee0e45eb249972eec0e56816706cb710967d803",
+                "reference": "4ee0e45eb249972eec0e56816706cb710967d803",
                 "shasum": ""
             },
             "require": {
@@ -833,7 +888,7 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2013-04-03 11:18:12"
+            "time": "2013-04-03 19:38:31"
         }
     ],
     "aliases": [
@@ -841,6 +896,7 @@
     ],
     "minimum-stability": "stable",
     "stability-flags": {
+        "doctrine/data-fixtures": 20,
         "atoum/atoum": 20
     },
     "platform": [

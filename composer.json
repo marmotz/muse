@@ -10,6 +10,7 @@
         }
     ],
     "require": {
+        "doctrine/data-fixtures"  : "*@dev",
         "doctrine/orm"            : "*",
         "symfony/config"          : "*",
         "symfony/event-dispatcher": "*",
@@ -29,5 +30,8 @@
             "Muse"   : "src/",
             "Simplex": "src/"
         }
+    },
+    "config": {
+        "bin-dir": "bin"
     }
 }
