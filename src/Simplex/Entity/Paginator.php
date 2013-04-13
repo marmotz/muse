@@ -3,40 +3,40 @@
 namespace Simplex\Entity;
 
 trait Paginator {
-    protected $page;
-    protected $nbPerPage;
+    protected $paginationPage;
+    protected $paginationNbPerPage;
 
 
     public function paginate($page, $nbPerPage) {
-        $this->page      = $page;
-        $this->nbPerPage = $nbPerPage;
+        $this->paginationPage      = $page;
+        $this->paginationNbPerPage = $nbPerPage;
     }
 
     public function getPaginatedPreviousData() {
         return array_slice(
             $this->getCollection(),
             0,
-            ($this->page - 1) * $this->nbPerPage
+            ($this->paginationPage - 1) * $this->paginationNbPerPage
         );
     }
 
     public function getPaginatedData() {
         return array_slice(
             $this->getCollection(),
-            ($this->page - 1) * $this->nbPerPage,
-            $this->nbPerPage
+            ($this->paginationPage - 1) * $this->paginationNbPerPage,
+            $this->paginationNbPerPage
         );
     }
 
     public function getPaginatedNextData() {
         return array_slice(
             $this->getCollection(),
-            ($this->page - 1) * $this->nbPerPage + $this->nbPerPage
+            ($this->paginationPage - 1) * $this->paginationNbPerPage + $this->paginationNbPerPage
         );
     }
 
     public function getNbPages() {
-        return ceil(count($this->getCollection()) / $this->nbPerPage);
+        return ceil(count($this->getCollection()) / $this->paginationNbPerPage);
     }
 
     public function getFirstPage() {
@@ -44,7 +44,7 @@ trait Paginator {
     }
 
     public function getPreviousPage() {
-        return $this->page - 1;
+        return $this->paginationPage - 1;
     }
 
     public function hasPreviousPage() {
@@ -57,7 +57,7 @@ trait Paginator {
             $stop = $this->getNbPages();
         }
         else {
-            $start = max(1,                   $this->page - floor($nb / 2));
+            $start = max(1,                   $this->paginationPage - floor($nb / 2));
             $stop  = min($this->getNbPages(), $start + $nb - 1);
             $start = max(1,                   $stop - $nb + 1);
         }
@@ -70,7 +70,7 @@ trait Paginator {
     }
 
     public function getNextPage() {
-        return $this->page + 1;
+        return $this->paginationPage + 1;
     }
 
     public function getLastPage() {

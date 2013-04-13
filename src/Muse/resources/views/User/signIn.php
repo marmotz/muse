@@ -11,19 +11,37 @@
 
     <p>
         <label for="email">
-            <?php echo $_('form.login.email') ?>
+            <?php echo $_('form.signin.email') ?>
         </label>
-        <input type="text" id="email" name="email" />
+        <input type="text" id="email" name="email" autofocus="autofocus" />
     </p>
 
     <p>
         <label for="password">
-            <?php echo $_('form.login.password') ?>
+            <?php echo $_('form.signin.password') ?>
         </label>
         <input type="password" id="password" name="password" />
     </p>
 
     <p>
-        <input type="submit" value="<?php echo $_('form.login.submit'); ?>" />
+        <input type="submit" value="<?php echo $_('form.signin.submit'); ?>" />
+    </p>
+
+    <p>
+        <a
+            class="button"
+            href="<?php
+                echo $url(
+                    'AlbumDisplay',
+                    array(
+                        'albumPath' => $_session->get('lastAlbumPath', ''),
+                        'page'      => $_session->get('lastPage',      1 ),
+                        'nbPerPage' => $_session->get('lastNbPerPage', 50),
+                    )
+                );
+            ?>"
+        >
+            <?php echo $_('form.signin.cancel'); ?>
+        </a>
     </p>
 </form>

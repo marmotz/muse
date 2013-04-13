@@ -2,31 +2,14 @@
 
 namespace Muse\Controller;
 
+use Muse\Entity;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class Photo {
-    static public function getCacheRootPath() {
-        return realpath(__DIR__ . '/../../../cache');
-    }
-
-    static public function getThumbPath($relativePhotoPath, $width, $height) {
-        return sprintf(
-            '%s/%s/%s_%dx%d.%s',
-            self::getCacheRootPath(),
-            trim(dirname($relativePhotoPath), '/'),
-            basename(substr($relativePhotoPath, 0, ($dot = strrpos($relativePhotoPath, '.')))),
-            $width,
-            $height,
-            substr($relativePhotoPath, $dot + 1)
-        );
-    }
-
-
     public function thumbAction($photo, $width, $height) {
-        $photoRelativePath = Album::getItemRelativePath($photo);
+        $photo = new Entity\Photo($photo);
 
-        $thumbPath = self::getThumbPath(
-            Album::getItemRelativePath($photo),
+        $thumbPath = $photo->getThumbPath(
             $width,
             $height
         );
@@ -38,7 +21,8 @@ class Photo {
                 mkdir($path, 0777, true);
             }
 
-            $thumb = new \Imagick(Album::getItemFullPath($photo));
+            $thumb = new \Imagick($photo->getPath());
+
             switch($thumb->getImageOrientation()) {
                 case \Imagick::ORIENTATION_TOPRIGHT:
                 case \Imagick::ORIENTATION_RIGHTTOP:
@@ -53,6 +37,7 @@ class Photo {
                     $thumb->rotateImage('white', 270);
                 break;
             }
+
             $thumb->thumbnailImage($width, $height, true);
             $thumb->borderImage('white', $width, $height);
             $thumb->cropImage(
@@ -75,13 +60,13 @@ class Photo {
 
 
     public function displayAction($photo) {
-        $photoPath = Album::getItemFullPath($photo);
+        $photo = new Entity\Photo($photo);
 
         return new BinaryFileResponse(
-            $photoPath,
+            $photo->getPath(),
             200,
             array(
-                'content-type' => 'image/' . substr($photoPath, strrpos($photoPath, '.') + 1)
+                'content-type' => $this->getContentType()
             )
         );
     }

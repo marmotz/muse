@@ -27,6 +27,12 @@
     box-shadow: 0 0 5px grey;
 }
 
+#content > div.item.protected {
+    background-image: url('../img/protected.png');
+    background-position: top left;
+    background-repeat: no-repeat;
+}
+
 #content > div.item a,
 #content > div.item p {
     display: block;

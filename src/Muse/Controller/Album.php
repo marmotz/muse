@@ -2,15 +2,13 @@
 
 namespace Muse\Controller;
 
-use Muse\Entity\ItemCollection;
-use Muse\Entity\Protection;
+use Muse\Entity;
 
 use Simplex\Controller\EntityManagerInjectable;
 use Simplex\Controller\EntityManagerInjector;
 use Simplex\Controller\UrlGeneratorInjectable;
 use Simplex\Controller\UrlGeneratorInjector;
 
-use Symfony\Component\Finder\Finder;
 use Symfony\Component\HttpFoundation\RedirectResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -20,63 +18,27 @@ class Album implements EntityManagerInjectable, UrlGeneratorInjectable {
     use UrlGeneratorInjector;
 
 
-    static public function getGalleryRootPath() {
-        return realpath(__DIR__ . '/../../../gallery');
-    }
-
-    static public function getItemFullPath($item) {
-        $galleryRootPath = self::getGalleryRootPath();
-        $fullAlbumPath = realpath($galleryRootPath . '/' . $item);
-
-        if(!$fullAlbumPath
-        || substr($fullAlbumPath, 0, strlen($galleryRootPath)) != $galleryRootPath) {
-            throw new \Exception('Fuck hacker ! (try to access to ' . $fullAlbumPath . ')');
-        }
-
-        return $fullAlbumPath;
-    }
-
-    static public function getItemRelativePath($item) {
-        return str_replace(self::getGalleryRootPath(), '', self::getItemFullPath($item));
-    }
-
     public function displayAction(Request $request, $albumPath, $page, $nbPerPage) {
-        $fullAlbumPath = self::getItemFullPath($albumPath);
+        $album = new Entity\Album($albumPath);
 
-        $items = new ItemCollection;
-
-        $finder = new Finder();
-        $finder
-            ->directories()
-            ->in($fullAlbumPath)
-            ->sortByName()
-            ->depth(0)
-        ;
-
-        $items->addItems($finder);
-
-        $finder
-            ->files()
-            ->name('/\.(jpg|jpeg|png)$/i')
-        ;
-
-        $items->addItems($finder);
-
-        $items->paginate($page, $nbPerPage);
+        $gallery = new Entity\Gallery(
+            $this->getEntityManager()->getRepository('Muse\Entity\Protection')->findByAlbumPath(
+                $album->getRelativePath()
+            ),
+            $album,
+            $page,
+            $nbPerPage
+        );
 
         $session = $request->getSession();
-        $session->set('lastAlbum',     $albumPath);
+        $session->set('lastAlbumPath', $album->getPath());
         $session->set('lastPage',      $page);
         $session->set('lastNbPerPage', $nbPerPage);
 
         return array(
-            'isRoot'     => self::getGalleryRootPath() === $fullAlbumPath,
-            'albumPath'  => $albumPath,
-            'items'      => $items,
-            'page'       => $page,
-            'nbPerPage'  => $nbPerPage,
-            'nbPages'    => $items->getNbPages(),
-            'protection' => $this->getEntityManager()->getRepository('Muse\Entity\Protection')->findOneByAlbumPath($albumPath),
+            'gallery'   => $gallery,
+            'page'      => $page,
+            'nbPerPage' => $nbPerPage,
         );
     }
 
@@ -99,7 +61,7 @@ class Album implements EntityManagerInjectable, UrlGeneratorInjectable {
         ;
 
         if($user && $user->isPasswordValid($password)) {
-            $protection = new Protection;
+            $protection = new Entity\Protection;
             $protection
                 ->setPath($albumPath)
                 ->setProtector($user)

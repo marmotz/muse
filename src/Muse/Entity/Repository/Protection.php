@@ -5,18 +5,22 @@ namespace Muse\Entity\Repository;
 use Doctrine\ORM\EntityRepository;
 
 class Protection extends EntityRepository {
-    public function findOneByAlbumPath($albumPath) {
+    public function findByAlbumPath($albumPath) {
         $dql = '
             SELECT  p
             FROM    Muse\Entity\Protection p
-            WHERE   p.path = ?0
+            WHERE   p.path LIKE ?0
+                OR  p.path = ?1
         ';
 
-        $parameters = array($albumPath);
+        $parameters = array(
+            $albumPath . '/%',
+            $albumPath
+        );
 
-        $cpt = 0;
+        $cpt = 1;
 
-        while(dirname($albumPath) != '.') {
+        while(!in_array(dirname($albumPath), array('.', ''))) {
             $dql .= ' OR p.path = ?' . ++$cpt;
 
             $parameters[] = $albumPath = dirname($albumPath);
@@ -29,8 +33,7 @@ class Protection extends EntityRepository {
         return $this->_em
             ->createQuery($dql)
             ->setParameters($parameters)
-            ->setMaxResults(1)
-            ->getOneOrNullResult()
+            ->getResult()
         ;
     }
 }

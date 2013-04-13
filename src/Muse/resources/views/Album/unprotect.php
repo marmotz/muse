@@ -17,10 +17,28 @@
         <label for="password">
             <?php echo $_('form.unprotect.password') ?>
         </label>
-        <input type="password" id="password" name="password" />
+        <input type="password" id="password" name="password" autofocus="autofocus" />
     </p>
 
     <p>
         <input type="submit" value="<?php echo $_('form.unprotect.submit'); ?>" />
+    </p>
+
+    <p>
+        <a
+            class="button"
+            href="<?php
+                echo $url(
+                    'AlbumDisplay',
+                    array(
+                        'albumPath' => $albumPath,
+                        'page'      => $_session->get('lastPage',      1 ),
+                        'nbPerPage' => $_session->get('lastNbPerPage', 50),
+                    )
+                );
+            ?>"
+        >
+            <?php echo $_('form.unprotect.cancel'); ?>
+        </a>
     </p>
 </form>

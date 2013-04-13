@@ -15,20 +15,23 @@ gallery:
   parent: Parent
 
 form:
-  login:
+  signin:
     email:        Email
     password:     Password
     submit:       Sign in
+    cancel:       Cancel
     unknownuser:  User unknown. Please check your login or email and your password is correct.
   protect:
     intro:          Please, type your password to crypt this album.
     password:       Password
     submit:         Protect this album
+    cancel:         Cancel
     wrongpassword:  Wrong password.
   unprotect:
     intro:          Please, type your password to decrypt this album.
     password:       Password
     submit:         Unprotect this album
+    cancel:         Cancel
     wrongpassword:  Wrong password.
 
 tools:

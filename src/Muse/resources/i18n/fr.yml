@@ -15,20 +15,23 @@ gallery:
   parent: Parent
 
 form:
-  login:
+  signin:
     email:        Email
     password:     Mot de passe
     submit:       Se connecter
+    cancel:       Annuler
     unknownuser:  Utilisateur inconnu. Vérifiez que avez mis le bon login ou email et que vous ne vous êtes pas trompé dans le mot de passe.
   protect:
     intro:          Veuillez saisir votre mot de passe afin de crypter cet album.
     password:       Mot de passe
     submit:         Protéger cet album
+    cancel:         Annuler
     wrongpassword:  Mot de passe incorrect.
   unprotect:
     intro:          Veuillez saisir votre mot de passe afin de décrypter cet album.
     password:       Mot de passe
     submit:         Déprotéger cet album
+    cancel:         Annuler
     wrongpassword:  Mot de passe incorrect.
 
 tools:

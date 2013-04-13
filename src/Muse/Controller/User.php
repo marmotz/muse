@@ -45,7 +45,7 @@ class User implements EntityManagerInjectable, UrlGeneratorInjectable {
         else {
             $request->getSession()->getFlashBag()->add(
                 'error',
-                'form.login.unknownuser'
+                'form.signin.unknownuser'
             );
 
             return new RedirectResponse(
@@ -55,7 +55,9 @@ class User implements EntityManagerInjectable, UrlGeneratorInjectable {
     }
 
     public function signOutAction(Request $request) {
-        $request->getSession()->remove('user');
+        $session = $request->getSession();
+
+        $session->remove('user');
 
         return new RedirectResponse(
             $this->getUrlGenerator()->generate(
