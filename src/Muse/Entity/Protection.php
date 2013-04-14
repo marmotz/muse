@@ -79,4 +79,17 @@ class Protection {
     {
         return $this->protector;
     }
+
+
+    static public function getParentPaths($path) {
+        $paths = array();
+
+        while(!in_array($path, array('.', ''))) {
+            $paths[] = $path;
+
+            $path = dirname($path);
+        }
+
+        return $paths;
+    }
 }

@@ -2,6 +2,7 @@
 
 namespace Muse\Entity\Repository;
 
+use Muse\Entity;
 use Doctrine\ORM\EntityRepository;
 
 class Protection extends EntityRepository {
@@ -10,20 +11,14 @@ class Protection extends EntityRepository {
             SELECT  p
             FROM    Muse\Entity\Protection p
             WHERE   p.path LIKE ?0
-                OR  p.path = ?1
         ';
 
-        $parameters = array(
-            $albumPath . '/%',
-            $albumPath
-        );
+        $parameters = array($albumPath . '/%');
 
-        $cpt = 1;
+        foreach(Entity\Protection::getParentPaths($albumPath) as $key => $path) {
+            $dql .= ' OR p.path = ?' . ($key + 1);
 
-        while(!in_array(dirname($albumPath), array('.', ''))) {
-            $dql .= ' OR p.path = ?' . ++$cpt;
-
-            $parameters[] = $albumPath = dirname($albumPath);
+            $parameters[] = $path;
         }
 
         $dql .= '

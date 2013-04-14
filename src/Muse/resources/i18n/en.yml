@@ -35,8 +35,9 @@ form:
     wrongpassword:  Wrong password.
 
 tools:
-  protect:    Protect
-  unprotect:  Unprotect
+  protect:          Protect
+  unprotect:        Unprotect
+  parentprotected:  This album is protected by a parent album
 
 footer:
   powered:  Powered by %name%

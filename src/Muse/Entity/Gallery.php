@@ -134,6 +134,16 @@ class Gallery implements Iterator {
         return isset($this->protections[$path]);
     }
 
+    public function hasParentProtection() {
+        foreach(Protection::getParentPaths($this->album->getRelativePath()) as $key => $path) {
+            if($this->hasProtection($path)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
     public function getCollection() {
         $gallery = $this;
 

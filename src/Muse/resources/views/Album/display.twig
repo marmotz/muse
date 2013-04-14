@@ -41,7 +41,7 @@
 {% block content %}
     {% if _session.has('user') and _session.get('user').isAdmin() %}
         <div id="tools">
-            {% if not gallery.hasProtection() %}
+            {% if not gallery.hasProtection() and not gallery.hasParentProtection() %}
                 <a href="{{ url('AlbumProtect', { 'albumPath': gallery.getPath() } ) }}">
                     {% trans %}tools.protect{% endtrans %}
                 </a>
@@ -49,6 +49,8 @@
                 <a href="{{ url('AlbumUnprotect', { 'albumPath': gallery.getPath() } ) }}">
                     {% trans %}tools.unprotect{% endtrans %}
                 </a>
+            {% else %}
+                {% trans %}tools.parentprotected{% endtrans %}
             {% endif %}
         </div>
     {% endif %}

@@ -35,8 +35,9 @@ form:
     wrongpassword:  Mot de passe incorrect.
 
 tools:
-  protect:    Protéger
-  unprotect:  Déprotéger
+  protect:          Protéger
+  unprotect:        Déprotéger
+  parentprotected:  Cet album est protéger par un album parent
 
 footer:
   powered:  Propulsé par %name%
