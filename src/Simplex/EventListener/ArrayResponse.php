@@ -2,6 +2,13 @@
 
 namespace Simplex\EventListener;
 
+use Simplex\Twig\Extension;
+use Symfony\Bridge\Twig\TwigEngine;
+use Symfony\Bridge\Twig\Extension\RoutingExtension;
+use Symfony\Bridge\Twig\Extension\TranslationExtension;
+
+use Symfony\Component\Finder\Finder;
+
 use Symfony\Component\EventDispatcher\EventSubscriberInterface;
 use Symfony\Component\HttpKernel\Event\GetResponseForControllerResultEvent;
 use Symfony\Component\HttpKernel\KernelEvents;
@@ -10,12 +17,7 @@ use Symfony\Component\Routing\Generator\UrlGenerator;
 use Symfony\Component\Routing\RouteCollection;
 use Symfony\Component\Routing\RequestContext;
 
-use Symfony\Component\Templating\PhpEngine;
 use Symfony\Component\Templating\TemplateNameParser;
-use Symfony\Component\Templating\Loader\FilesystemLoader;
-use Symfony\Component\Templating\Helper\SlotsHelper;
-use Symfony\Component\Templating\Helper\AssetsHelper;
-use Symfony\Component\Templating\Asset\PathPackage;
 
 use Symfony\Component\Translation\Translator;
 use Symfony\Component\Translation\MessageSelector;
@@ -49,16 +51,37 @@ class ArrayResponse implements EventSubscriberInterface {
             $controllerFilename = $class->getFileName();
             $resourcePath = dirname(dirname($controllerFilename)) . '/resources';
 
-            $view = new PhpEngine(
-                new TemplateNameParser(),
-                new FilesystemLoader(
-                    $resourcePath . '/views/%name%'
+            // twig
+            $twig = new \Twig_Environment(
+                new \Twig_Loader_Filesystem($resourcePath . '/views'),
+                array(
+                    'debug' => true,
+                    'cache' => __DIR__ . '/../../../cache/tpl',
                 )
             );
 
-            $view->set(new SlotsHelper());
-            $view->set(
-                new AssetsHelper(
+            $twig->addGlobal(
+                '_controller',
+                sprintf(
+                    '%s%sController',
+                    substr($controller, 0, strpos($controller, '\\')),
+                    substr($controller, strrpos($controller, '\\') + 1)
+                )
+            );
+            $twig->addGlobal('_action', ucfirst($action));
+            $twig->addGlobal('_request', $request);
+            $twig->addGlobal('_session', $request->getSession());
+
+            // routing
+            $twig->addExtension(
+                new RoutingExtension(
+                    new UrlGenerator($this->routes, $this->context)
+                )
+            );
+
+            // assets
+            $twig->addExtension(
+                new Extension\Asset(
                     sprintf(
                         '%s/assets/%s',
                         $this->context->getBaseurl(),
@@ -77,39 +100,43 @@ class ArrayResponse implements EventSubscriberInterface {
             $translator = new Translator($request->getSession()->get('_locale'));
             $translator->setFallbackLocale('en');
             $translator->addLoader('yml', new YamlFileLoader());
-            $translator->addResource('yml', $resourcePath . '/i18n/fr.yml', 'fr');
 
-            // Routes
-            $urlGenerator = new UrlGenerator($this->routes, $this->context);
+            $finder = new Finder();
+            $finder
+                ->files()
+                ->in($resourcePath . '/i18n')
+                ->depth(0)
+                ->name('*.yml')
+            ;
+
+            foreach($finder as $resource) {
+                $resource = $resource->getPathname();
+
+                $translator->addResource('yml', $resource, basename(substr($resource, 0, strrpos($resource, '.'))));
+            }
+
+            $twig->addExtension(
+                new TranslationExtension(
+                    $translator
+                )
+            );
+
+
+            // view
+            $view = new TwigEngine(
+                $twig,
+                new TemplateNameParser()
+            );
 
             $event->setResponse(
                 new Response(
                     $view->render(
                         sprintf(
-                            '%s/%s.php',
+                            '%s/%s.twig',
                             substr(basename($controllerFilename), 0, -4),
                             substr($action, 0, -6)
                         ),
-                        array_merge(
-                            $response,
-                            array(
-                                '_controller' => sprintf(
-                                    '%s%sController',
-                                    substr($controller, 0, strpos($controller, '\\')),
-                                    substr($controller, strrpos($controller, '\\') + 1)
-                                ),
-                                '_action' => ucfirst($action),
-                                '_request' => $request,
-                                '_session' => $request->getSession(),
-
-                                'url' => function($name, $parameters = array(), $referenceType = UrlGenerator::ABSOLUTE_PATH) use($urlGenerator) {
-                                    return $urlGenerator->generate($name, $parameters, $referenceType);
-                                },
-                                '_' => function($id, array $parameters = array(), $domain = 'messages', $locale = null) use($translator) {
-                                    return $translator->trans($id, $parameters, $domain, $locale);
-                                },
-                            )
-                        )
+                        $response
                     )
                 )
             );

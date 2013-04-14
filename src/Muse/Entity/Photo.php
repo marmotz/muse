@@ -24,6 +24,6 @@ class Photo extends Item {
     }
 
     protected function getCacheRootPath() {
-        return realpath(__DIR__ . '/../../../cache');
+        return realpath(__DIR__ . '/../../../cache') . '/gallery';
     }
 }

@@ -20,6 +20,7 @@
         "symfony/routing"         : "*",
         "symfony/templating"      : "*",
         "symfony/translation"     : "*",
+        "symfony/twig-bridge"     : "*",
         "symfony/yaml"            : "*"
     },
     "require-dev": {

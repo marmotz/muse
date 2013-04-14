@@ -54,6 +54,14 @@ class Gallery implements Iterator {
         return $this->album->getRelativePath();
     }
 
+    public function getParentPath() {
+        return dirname($this->getPath());
+    }
+
+    public function getBreadCrumb() {
+        return explode('/', $this->getPath());
+    }
+
     public function isRoot() {
         return $this->album->getRootPath() === $this->album->getPath();
     }

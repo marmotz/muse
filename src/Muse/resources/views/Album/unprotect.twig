@@ -1,0 +1,48 @@
+{% extends 'layout.twig' %}
+
+{% block title %}
+    {% trans %}title.unprotect{% endtrans %}
+{% endblock %}
+
+{% block stylesheets %}
+    <link rel="stylesheet" href="{{ asset('css/form.user.css') }}" />
+{% endblock %}
+
+{% block content %}
+    <form action="{{ url('AlbumDecrypt', { 'albumPath': albumPath } ) }}" method="POST">
+        {% include 'errors.twig' %}
+
+        <p class="info">
+            {% trans %}form.unprotect.intro{% endtrans %}
+        </p>
+
+        <p>
+            <label for="password">
+                {% trans %}form.unprotect.password{% endtrans %}
+            </label>
+            <input type="password" id="password" name="password" autofocus="autofocus" />
+        </p>
+
+        <p>
+            <input type="submit" value="{% trans %}form.unprotect.submit{% endtrans %}" />
+        </p>
+
+        <p>
+            <a
+                class="button"
+                href="{{
+                    url(
+                        'AlbumDisplay',
+                        {
+                            'albumPath': albumPath,
+                            'page'     : _session.get('lastPage',      1 ),
+                            'nbPerPage': _session.get('lastNbPerPage', 50),
+                        }
+                    )
+                }}"
+            >
+                {% trans %}form.unprotect.cancel{% endtrans %}
+            </a>
+        </p>
+    </form>
+{% endblock %}
