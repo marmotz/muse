@@ -53,7 +53,7 @@ class Photo {
             $thumbPath,
             200,
             array(
-                'content-type' => 'image/' . substr($thumbPath, strrpos($thumbPath, '.') + 1)
+                'content-type' => $photo->getContentType()
             )
         );
     }
@@ -66,7 +66,7 @@ class Photo {
             $photo->getPath(),
             200,
             array(
-                'content-type' => $this->getContentType()
+                'content-type' => $photo->getContentType()
             )
         );
     }
