@@ -2,11 +2,11 @@
 
 namespace Muse\Entity;
 
+use Iterator;
 use Simplex\Entity\Paginator;
-
 use Symfony\Component\Finder\Finder;
 
-class Gallery implements \Iterator {
+class Gallery implements Iterator {
     protected $collection = array();
     protected $protections = array();
 
@@ -15,17 +15,19 @@ class Gallery implements \Iterator {
     protected $album;
     protected $page;
     protected $nbPerPage;
+    protected $user;
 
 
     use Paginator;
 
 
-    public function __construct(array $protections, Album $album, $page, $nbPerPage) {
+    public function __construct(array $protections, Album $album, $page, $nbPerPage, User $user = null) {
         $this->setProtections($protections);
 
-        $this->album       = $album;
-        $this->page        = $page;
-        $this->nbPerPage   = $nbPerPage;
+        $this->album     = $album;
+        $this->page      = $page;
+        $this->nbPerPage = $nbPerPage;
+        $this->user      = $user;
 
         $finder = new Finder();
         $finder
@@ -101,26 +103,16 @@ class Gallery implements \Iterator {
             throw new \RuntimeException('Invalid item');
         }
 
-        foreach($this->protections as $protection) {
-            if(strpos($protection, $item->getPath()) === 0) {
-                return $this;
-            }
-        }
-
         $this->collection[] = $item;
 
         return $this;
-    }
-
-    public function getCollection() {
-        return $this->collection;
     }
 
     protected function setProtections(array $protections) {
         $this->protections = array();
 
         foreach($protections as $protection) {
-            $this->protections[$protection->getPath()] = $protection->getProtector()->getId();
+            $this->protections[$protection->getPath()] = $protection;
         }
 
         return $this;
@@ -132,5 +124,28 @@ class Gallery implements \Iterator {
         }
 
         return isset($this->protections[$path]);
+    }
+
+    public function getCollection() {
+        $gallery = $this;
+
+        return array_filter(
+            $this->collection,
+            function($item) use($gallery) {
+                return $gallery->canAccess(
+                    $item->getRelativePath()
+                );
+            }
+        );
+    }
+
+    public function canAccess($path) {
+        return
+               !$this->hasProtection($path)
+            || (
+                   $this->user !== null
+                && $this->user->getId() === $this->protections[$path]->getProtector()->getId()
+            )
+        ;
     }
 }

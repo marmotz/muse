@@ -21,16 +21,18 @@ class Album implements EntityManagerInjectable, UrlGeneratorInjectable {
     public function displayAction(Request $request, $albumPath, $page, $nbPerPage) {
         $album = new Entity\Album($albumPath);
 
+        $session = $request->getSession();
+
         $gallery = new Entity\Gallery(
             $this->getEntityManager()->getRepository('Muse\Entity\Protection')->findByAlbumPath(
                 $album->getRelativePath()
             ),
             $album,
             $page,
-            $nbPerPage
+            $nbPerPage,
+            $session->has('user') ? $session->get('user') : null
         );
 
-        $session = $request->getSession();
         $session->set('lastAlbumPath', $album->getPath());
         $session->set('lastPage',      $page);
         $session->set('lastNbPerPage', $nbPerPage);
