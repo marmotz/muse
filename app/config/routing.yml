@@ -1,0 +1,4 @@
+mattlab_muse:
+    resource: "@MattlabMuseBundle/Resources/config/routing.yml"
+    prefix:   /
+

@@ -1,0 +1,4 @@
+services:
+    muse.item_factory:
+        class: Mattlab\MuseBundle\Entity\ItemFactory
+        arguments: [%muse.gallery.root_path%]

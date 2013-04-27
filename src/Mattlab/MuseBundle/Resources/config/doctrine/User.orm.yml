@@ -1,0 +1,28 @@
+Mattlab\MuseBundle\Entity\User:
+    type: entity
+    table: null
+    repositoryClass: Mattlab\MuseBundle\Entity\UserRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        name:
+            type: string
+            length: '32'
+        email:
+            type: string
+            length: 255
+        password:
+            type: string
+            length: '80'
+        isAdmin:
+            type: boolean
+        keysWallet:
+            type: text
+    oneToMany:
+        protections:
+            targetEntity: Protection
+            mappedBy: protector
+    lifecycleCallbacks: { }

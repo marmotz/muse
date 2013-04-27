@@ -1,38 +1,52 @@
 {
-    "name"       : "mattlab/muse",
-    "description": "Muse",
-    "version"    : "0.0.0",
-    "license"    : "GPL-3.0",
-    "authors": [
-        {
-            "name" : "Renaud Littolff",
-            "email": "rlittolff@gmail.com"
-        }
-    ],
+    "name": "symfony/framework-standard-edition",
+    "description": "The \"Symfony Standard Edition\" distribution",
+    "autoload": {
+        "psr-0": { "": "src/" }
+    },
     "require": {
-        "doctrine/data-fixtures"  : "*@dev",
-        "doctrine/orm"            : "*",
-        "symfony/config"          : "*",
-        "symfony/event-dispatcher": "*",
-        "symfony/finder"          : "*",
-        "symfony/http-foundation" : "*",
-        "symfony/http-kernel"     : "*",
-        "symfony/routing"         : "*",
-        "symfony/templating"      : "*",
-        "symfony/translation"     : "*",
-        "symfony/twig-bridge"     : "*",
-        "symfony/yaml"            : "*"
+        "php"                          : ">=5.3.3",
+        "symfony/symfony"              : "*",
+        "doctrine/orm"                 : "*",
+        "doctrine/doctrine-bundle"     : "*",
+        "twig/extensions"              : "*",
+        "symfony/assetic-bundle"       : "*",
+        "symfony/swiftmailer-bundle"   : "*",
+        "symfony/monolog-bundle"       : "*",
+        "sensio/distribution-bundle"   : "*",
+        "sensio/framework-extra-bundle": "*",
+        "sensio/generator-bundle"      : "*",
+        "jms/security-extra-bundle"    : "*",
+        "jms/di-extra-bundle"          : "*",
+        "knplabs/knp-paginator-bundle" : "dev-master"
     },
     "require-dev": {
-        "atoum/atoum": "dev-master"
+        "atoum/atoum-bundle": "dev-master",
+        "atoum/atoum"       : "dev-master"
     },
-    "autoload": {
-        "psr-0": {
-            "Muse"   : "src/",
-            "Simplex": "src/"
-        }
+    "scripts": {
+        "post-install-cmd": [
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ],
+        "post-update-cmd": [
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::buildBootstrap",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::clearCache",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installAssets",
+            "Sensio\\Bundle\\DistributionBundle\\Composer\\ScriptHandler::installRequirementsFile"
+        ]
     },
     "config": {
         "bin-dir": "bin"
+    },
+    "minimum-stability": "alpha",
+    "extra": {
+        "symfony-app-dir": "app",
+        "symfony-web-dir": "web",
+        "branch-alias": {
+            "dev-master": "2.2-dev"
+        }
     }
 }

@@ -1,0 +1,20 @@
+Mattlab\MuseBundle\Entity\Protection:
+    type: entity
+    table: null
+    repositoryClass: Mattlab\MuseBundle\Entity\ProtectionRepository
+    fields:
+        id:
+            type: integer
+            id: true
+            generator:
+                strategy: AUTO
+        path:
+            type: text
+    manyToOne:
+        protector:
+            targetEntity: User
+            inversedBy: protections
+            joinColumn:
+                name: protector_id
+                referencedColumnName: id
+    lifecycleCallbacks: {  }

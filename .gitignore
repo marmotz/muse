@@ -1,8 +1,9 @@
-/bin/atoum
-/bin/doctrine*
-/cache/*/
-/gallery/*/
-/logs/*.log
-/vendor
-muse.sqlite
-*.php~
+/.coverage
+/app/bootstrap.php.cache
+/app/cache/*
+/app/logs/*
+/bin/
+/build/
+/old
+/vendor/
+/web/bundles/

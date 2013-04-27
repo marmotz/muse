@@ -1,0 +1,13 @@
+mattlab_muse_homepage:
+    pattern:  /
+    defaults:
+        _controller:  MattlabMuseBundle:Default:index
+
+mattlab_muse_album_display:
+    pattern:  /album/{page}-{itemPerPage}/{albumPath}
+    defaults:
+        _controller: MattlabMuseBundle:Album:display
+    requirements:
+        albumPath:      .*
+        page:           "[0-9]+"
+        nbPerPage:      "[0-9]+"

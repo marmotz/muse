@@ -1,7 +1,0 @@
-{% if _session.getFlashBag().has('error') %}
-    <div class="message error">
-        {% for error in _session.getFlashBag().get('error') %}
-            <p>{{ error|trans }}</p>
-        {% endfor %}
-    </div>
-{% endif %}
