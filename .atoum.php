@@ -14,7 +14,13 @@ $report->addField(new atoum\report\fields\runner\result\logo());
 //////////////
 // COVERAGE //
 //////////////
-$coverageField = new atoum\report\fields\runner\coverage\html('Muse', __DIR__ . '/.coverage');
+$coveragePath = __DIR__ . '/.coverage';
+
+if(!file_exists($coveragePath)) {
+    mkdir($coveragePath);
+}
+
+$coverageField = new atoum\report\fields\runner\coverage\html('Muse', $coveragePath);
 $coverageField->setRootUrl('http://hynea.mattlab.com/muse/.coverage');
 // $coverageField->addSrcDirectory(
 //     __DIR__ . '/src/Mattlab',

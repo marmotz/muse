@@ -7,4 +7,4 @@ php:
 before_script:
    - composer install --dev
 
-script: php ./bin/atoum
+script: php ./bin/atoum -ncc
