@@ -10,9 +10,37 @@ abstract class Item {
     protected $relativePath;
 
 
-    public function __construct($galleryRootPath, $relativePath) {
+    public function __construct($galleryRootPath, $relativePath)
+    {
+        $this
+            ->setGalleryRootPath($galleryRootPath)
+            ->setRelativePath($relativePath)
+        ;
+    }
+
+
+    public function setGalleryRootPath($galleryRootPath)
+    {
         $this->galleryRootPath = $galleryRootPath;
-        $this->relativePath    = trim($relativePath, DIRECTORY_SEPARATOR);
+
+        return $this;
+    }
+
+    public function getGalleryRootPath()
+    {
+        return $this->galleryRootPath;
+    }
+
+
+    public function setRelativePath($relativePath)
+    {
+        $this->relativePath = trim($relativePath, DIRECTORY_SEPARATOR);
+
+        return $this;
+    }
+
+    public function getRelativePath() {
+        return $this->relativePath;
     }
 
 
@@ -20,16 +48,14 @@ abstract class Item {
         return basename($this->relativePath);
     }
 
+
     public function getName() {
         return $this->getBasename();
     }
 
+
     public function getPath() {
         return $this->galleryRootPath . $this->relativePath;
-    }
-
-    public function getRelativePath() {
-        return $this->relativePath;
     }
 
 
