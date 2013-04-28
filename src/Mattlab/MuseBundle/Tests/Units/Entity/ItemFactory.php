@@ -4,6 +4,7 @@ namespace Mattlab\MuseBundle\Tests\Units\Entity;
 
 use Mattlab\MuseBundle\Tests\Units\BaseTest;
 
+use Mattlab\MuseBundle\Adapter\TestAdapter;
 use Mattlab\MuseBundle\Entity\ItemFactory as TestedClass;
 use Mattlab\MuseBundle\Entity\Album;
 use Mattlab\MuseBundle\Entity\Photo;
@@ -28,7 +29,8 @@ class ItemFactory extends BaseTest
         $test = $this;
 
         $this
-            ->if($factory = new TestedClass($this->getGalleryRootPath()))
+            ->if($adapter = new TestAdapter)
+            ->and($factory = new TestedClass($this->getGalleryRootPath(), $adapter))
                 ->exception(
                     function() use($factory, &$path)
                     {
@@ -47,15 +49,17 @@ class ItemFactory extends BaseTest
                     ->isInstanceOf('RuntimeException')
                     ->hasMessage('"' . $path . '" is not a valid directory.')
 
+            ->if($adapter->is_readable = false)
                 ->exception(
                     function() use($test, $factory, &$path)
                     {
-                        $factory->setGalleryRootPath($path = $test->getGalleryRootPath() . '/nonReadableDirectory');
+                        $factory->setGalleryRootPath($path = $test->getGalleryRootPath() . '/album2');
                     }
                 )
                     ->isInstanceOf('RuntimeException')
                     ->hasMessage('"' . $path . '" is not a readable directory.')
 
+            ->if($adapter->reset())
                 ->object($factory->setGalleryRootPath($this->getGalleryRootPath()))
                     ->isIdenticalTo($factory)
                 ->string($factory->getGalleryRootPath())

@@ -24,18 +24,14 @@ $coverageField = new atoum\report\fields\runner\coverage\html('Muse', $coverageP
 $coverageField->setRootUrl('http://hynea.mattlab.com/muse/.coverage');
 $coverageField->addSrcDirectory(
     __DIR__ . '/src/Mattlab',
-    function($file)
-    {
+    function($file) {
         if($file->isDir()) {
-            // return true;
+            return true;
         }
 
-        if ($file->getExtension() === 'php') {
-            return
-                preg_match('/(Bundle|Extension|Repository)$/', $file->getBasename('.php')) === 0
-                &&
-                preg_match('#/(DependencyInjection)/#', $file->getPathname()) === 0
-            ;
+        if($file->getExtension() === 'php'
+        && preg_match('/Bundle$/', $file->getBasename('.php')) === 0) {
+            return true;
         }
 
         return false;
@@ -44,7 +40,11 @@ $coverageField->addSrcDirectory(
 $report->addField($coverageField);
 $script->noCodeCoverageForNamespaces(
     'Doctrine',
-    'Symfony'
+    'Symfony',
+    'mageekguy',
+    'Mattlab\MuseBundle\Adapter',
+    'Mattlab\MuseBundle\DependencyInjection',
+    'Mattlab\MuseBundle\Repository'
 );
 
 

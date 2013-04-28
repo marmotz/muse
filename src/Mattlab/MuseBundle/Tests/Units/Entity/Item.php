@@ -79,11 +79,11 @@ class Item extends BaseTest
     {
         $this
             ->if($item = new TestedClass('', ''))
-            ->and($item->getMockController()->getType = TestedClass::TYPE_ALBUM)
+            ->and($this->calling($item)->getType = TestedClass::TYPE_ALBUM)
                 ->boolean($item->isAlbum())
                     ->isTrue()
 
-            ->if($item->getMockController()->getType = TestedClass::TYPE_PHOTO)
+            ->if($this->calling($item)->getType = TestedClass::TYPE_PHOTO)
                 ->boolean($item->isAlbum())
                     ->isFalse()
         ;
@@ -94,11 +94,11 @@ class Item extends BaseTest
     {
         $this
             ->if($item = new TestedClass('', ''))
-            ->and($item->getMockController()->getType = TestedClass::TYPE_PHOTO)
+            ->and($this->calling($item)->getType = TestedClass::TYPE_PHOTO)
                 ->boolean($item->isPhoto())
                     ->isTrue()
 
-            ->if($item->getMockController()->getType = TestedClass::TYPE_ALBUM)
+            ->if($this->calling($item)->getType = TestedClass::TYPE_ALBUM)
                 ->boolean($item->isPhoto())
                     ->isFalse()
         ;

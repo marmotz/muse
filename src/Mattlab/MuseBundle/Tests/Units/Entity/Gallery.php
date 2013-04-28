@@ -104,7 +104,7 @@ class Gallery extends BaseTest
             // no protection
             ->if(list($mockEntityManager, $mockRepository) = $this->generateMockEntityManager())
             ->and(list($gallery, , , $albumPath) = $this->generateGallery($mockEntityManager))
-            ->and($mockRepository->getMockController()->findByAlbumPath = array())
+            ->and($this->calling($mockRepository)->findByAlbumPath = array())
                 ->object($gallery->loadProtections())
                     ->isIdenticalTo($gallery)
                 ->array($gallery->getProtections())
@@ -120,7 +120,7 @@ class Gallery extends BaseTest
 
             // 1 protection = albumPath
             ->if($protection = $this->generateProtection($albumPath))
-            ->and($mockRepository->getMockController()->findByAlbumPath = array($protection))
+            ->and($this->calling($mockRepository)->findByAlbumPath = array($protection))
                 ->object($gallery->loadProtections())
                     ->isIdenticalTo($gallery)
                 ->boolean($gallery->hasProtection())
@@ -136,7 +136,7 @@ class Gallery extends BaseTest
             ->if(list($mockEntityManager, $mockRepository) = $this->generateMockEntityManager())
             ->and(list($gallery) = $this->generateGallery($mockEntityManager))
             ->and($protection1 = $this->generateProtection($protection1Path = uniqid()))
-            ->and($mockRepository->getMockController()->findByAlbumPath = array($protection1))
+            ->and($this->calling($mockRepository)->findByAlbumPath = array($protection1))
                 ->object($gallery->loadProtections())
                     ->isIdenticalTo($gallery)
                 ->array($gallery->getProtections())
@@ -154,7 +154,7 @@ class Gallery extends BaseTest
 
             // 2 random protections
             ->if($protection2 = $this->generateProtection($protection2Path = uniqid()))
-            ->and($mockRepository->getMockController()->findByAlbumPath = array($protection1, $protection2))
+            ->and($this->calling($mockRepository)->findByAlbumPath = array($protection1, $protection2))
                 ->object($gallery->loadProtections())
                     ->isIdenticalTo($gallery)
                 ->array($gallery->getProtections())
@@ -179,34 +179,34 @@ class Gallery extends BaseTest
             // hasParentProtection, no protection
             ->if(list($mockEntityManager, $mockRepository) = $this->generateMockEntityManager())
             ->and(list($gallery) = $this->generateGallery($mockEntityManager, $albumPath = 'album1/album1.1/album1.1.1'))
-            ->and($mockRepository->getMockController()->findByAlbumPath = array())
+            ->and($this->calling($mockRepository)->findByAlbumPath = array())
             ->and($gallery->loadProtections())
                 ->boolean($gallery->hasParentProtection())
                     ->isFalse()
 
             // hasParentProtection, 1 protection = albumPath
             ->if($protection1 = $this->generateProtection($albumPath))
-            ->and($mockRepository->getMockController()->findByAlbumPath = array($protection1))
+            ->and($this->calling($mockRepository)->findByAlbumPath = array($protection1))
             ->and($gallery->loadProtections())
                 ->boolean($gallery->hasParentProtection())
                     ->isFalse()
 
             // hasParentProtection, 2 protections = albumPath + parent
             ->if($protection2 = $this->generateProtection(dirname($albumPath)))
-            ->and($mockRepository->getMockController()->findByAlbumPath = array($protection1, $protection2))
+            ->and($this->calling($mockRepository)->findByAlbumPath = array($protection1, $protection2))
             ->and($gallery->loadProtections())
                 ->boolean($gallery->hasParentProtection())
                     ->isTrue()
 
             // hasParentProtection, 2 protections = albumPath + grand parent
             ->if($protection3 = $this->generateProtection(dirname(dirname($albumPath))))
-            ->and($mockRepository->getMockController()->findByAlbumPath = array($protection1, $protection3))
+            ->and($this->calling($mockRepository)->findByAlbumPath = array($protection1, $protection3))
             ->and($gallery->loadProtections())
                 ->boolean($gallery->hasParentProtection())
                     ->isTrue()
 
             // hasParentProtection, 2 protections = albumPath + parent + grand parent
-            ->if($mockRepository->getMockController()->findByAlbumPath = array($protection1, $protection2, $protection3))
+            ->if($this->calling($mockRepository)->findByAlbumPath = array($protection1, $protection2, $protection3))
             ->and($gallery->loadProtections())
                 ->boolean($gallery->hasParentProtection())
                     ->isTrue()
@@ -341,14 +341,14 @@ class Gallery extends BaseTest
         $this
             ->if(list($mockEntityManager, $mockRepository) = $this->generateMockEntityManager())
             ->and(list($gallery, , , $albumPath) = $this->generateGallery($mockEntityManager, 'album1'))
-            ->and($mockRepository->getMockController()->findByAlbumPath = array())
+            ->and($this->calling($mockRepository)->findByAlbumPath = array())
                 ->object($gallery->loadProtections())
                     ->isIdenticalTo($gallery)
                 ->boolean($gallery->canAccess($albumPath))
                     ->isTrue()
 
             ->if($protection = $this->generateProtection($albumPath, $user = $this->generateMockUser(1)))
-            ->and($mockRepository->getMockController()->findByAlbumPath = array($protection))
+            ->and($this->calling($mockRepository)->findByAlbumPath = array($protection))
                 ->object($gallery->setUser($user))
                     ->isIdenticalTo($gallery)
                 ->object($gallery->loadProtections())
@@ -357,7 +357,7 @@ class Gallery extends BaseTest
                     ->isTrue()
 
             ->if($protection = $this->generateProtection($albumPath, $this->generateMockUser(1)))
-            ->and($mockRepository->getMockController()->findByAlbumPath = array($protection))
+            ->and($this->calling($mockRepository)->findByAlbumPath = array($protection))
                 ->object($gallery->setUser($this->generateMockUser(2)))
                     ->isIdenticalTo($gallery)
                 ->object($gallery->loadProtections())
@@ -385,7 +385,7 @@ class Gallery extends BaseTest
                     )
 
             ->if($protection = $this->generateProtection('album1/album1.1', $this->generateMockUser(1)))
-            ->and($mockRepository->getMockController()->findByAlbumPath = array($protection))
+            ->and($this->calling($mockRepository)->findByAlbumPath = array($protection))
             ->and($gallery->setUser($this->generateMockUser(2)))
             ->and($gallery->setItems(null))
                 ->array($gallery->getAccessiblesItems())
@@ -462,7 +462,7 @@ class Gallery extends BaseTest
         // Container
         $this->mockGenerator->orphanize('__construct');
         $mockContainer = new mockContainer;
-        $mockContainer->getMockController()->get = function($service) use($mockItemFactory, $mockEntityManager)
+        $this->calling($mockContainer)->get = function($service) use($mockItemFactory, $mockEntityManager)
         {
             switch($service)
             {
@@ -501,12 +501,12 @@ class Gallery extends BaseTest
         // EntityRepository
         $this->mockGenerator->orphanize('__construct');
         $mockRepository = new mockRepository;
-        $mockRepository->getMockController()->findByAlbumPath = array();
+        $this->calling($mockRepository)->findByAlbumPath = array();
 
         // EntityManager
         $this->mockGenerator->orphanize('__construct');
         $mockEntityManager = new mockEntityManager;
-        $mockEntityManager->getMockController()->getRepository = $mockRepository;
+        $this->calling($mockEntityManager)->getRepository = $mockRepository;
 
         return array(
             $mockEntityManager,
@@ -518,7 +518,7 @@ class Gallery extends BaseTest
     private function generateMockUser($id)
     {
         $mockUser = new mockUser;
-        $mockUser->getMockController()->getId = $id;
+        $this->calling($mockUser)->getId = $id;
 
         return $mockUser;
     }

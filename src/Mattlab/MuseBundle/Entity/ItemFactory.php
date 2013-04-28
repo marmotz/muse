@@ -3,32 +3,41 @@
 namespace Mattlab\MuseBundle\Entity;
 
 use RuntimeException;
+use Mattlab\MuseBundle\Adapter\AdapterInjectable;
+use Mattlab\MuseBundle\Adapter\AdapterInjector;
+use Mattlab\MuseBundle\Adapter\AdapterInterface;
 
 
-class ItemFactory
+class ItemFactory implements AdapterInjectable
 {
+    use AdapterInjector;
+
+
     protected $galleryRootPath;
 
 
-    public function __construct($galleryRootPath)
+    public function __construct($galleryRootPath, AdapterInterface $adapter = null)
     {
-        $this->setGalleryRootPath($galleryRootPath);
+        $this
+            ->setAdapter($adapter)
+            ->setGalleryRootPath($galleryRootPath)
+        ;
     }
 
 
     public function setGalleryRootPath($galleryRootPath)
     {
-        if(!file_exists($galleryRootPath))
+        if(!$this->getAdapter()->file_exists($galleryRootPath))
         {
             throw new RuntimeException('"' . $galleryRootPath . '" does not exist.');
         }
 
-        if(!is_dir($galleryRootPath))
+        if(!$this->getAdapter()->is_dir($galleryRootPath))
         {
             throw new RuntimeException('"' . $galleryRootPath . '" is not a valid directory.');
         }
 
-        if(!is_readable($galleryRootPath))
+        if(!$this->getAdapter()->is_readable($galleryRootPath))
         {
             throw new RuntimeException('"' . $galleryRootPath . '" is not a readable directory.');
         }
