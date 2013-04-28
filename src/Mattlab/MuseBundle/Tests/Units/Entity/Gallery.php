@@ -323,7 +323,7 @@ class Gallery extends BaseTest
                 ->array($gallery->getItems())
                     ->isEqualTo(
                         array(
-                            $mockItemFactory->get('album1/album1.1/photo1.1.jpg.muse'),
+                            $mockItemFactory->get('album1/album1.1/photo1.jpg.muse'),
                         )
                     )
 

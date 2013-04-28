@@ -125,7 +125,7 @@ class ItemFactory extends BaseTest
                 ->string($item->getPath())
                     ->isEqualTo($this->getGalleryPath($path))
 
-                ->object($item = $factory->get($path = 'album1/album1.1/photo1.1.jpg.muse'))
+                ->object($item = $factory->get($path = 'album1/album1.1/photo1.jpg.muse'))
                     ->isInstanceOf('Mattlab\MuseBundle\Entity\EncryptedPhoto')
                 ->string($item->getPath())
                     ->isEqualTo($this->getGalleryPath($path))
