@@ -1,10 +1,11 @@
 <?php
 
-namespace Mattlab\MuseBundle\Entity;
+namespace Mattlab\MuseBundle\Model;
 
 
 use Doctrine\ORM\EntityManager;
-use Mattlab\MuseBundle\Entity\ItemFactory;
+use Mattlab\MuseBundle\Entity\User;
+use Mattlab\MuseBundle\Model\ItemFactory;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Finder\Finder;
 

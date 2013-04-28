@@ -1,6 +1,6 @@
 <?php
 
-namespace Mattlab\MuseBundle\Entity;
+namespace Mattlab\MuseBundle\Model;
 
 abstract class Item {
     const TYPE_ALBUM = 'album';

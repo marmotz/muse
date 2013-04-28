@@ -1,6 +1,6 @@
 <?php
 
-namespace Mattlab\MuseBundle\Entity;
+namespace Mattlab\MuseBundle\Model;
 
 use RuntimeException;
 use Mattlab\MuseBundle\Adapter\AdapterInjectable;

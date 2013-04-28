@@ -1,14 +1,11 @@
 <?php
 
-namespace Mattlab\MuseBundle\Tests\Units\Entity;
+namespace Mattlab\MuseBundle\Tests\Units\Model;
 
 use Mattlab\MuseBundle\Tests\Units\BaseTest;
 
 use Mattlab\MuseBundle\Adapter\TestAdapter;
-use Mattlab\MuseBundle\Entity\ItemFactory as TestedClass;
-use Mattlab\MuseBundle\Entity\Album;
-use Mattlab\MuseBundle\Entity\Photo;
-use Mattlab\MuseBundle\Entity\EncryptedPhoto;
+use Mattlab\MuseBundle\Model\ItemFactory as TestedClass;
 use SplFileInfo;
 
 
@@ -106,32 +103,32 @@ class ItemFactory extends BaseTest
                     ->hasMessage('Invalid item (type: integer).')
 
                 ->object($item = $factory->get($path = ''))
-                    ->isInstanceOf('Mattlab\MuseBundle\Entity\Album')
+                    ->isInstanceOf('Mattlab\MuseBundle\Model\Album')
                 ->string($item->getPath())
                     ->isEqualTo($this->getGalleryPath($path) . '/')
 
                 ->object($item = $factory->get($path = $this->getGalleryRootPath()))
-                    ->isInstanceOf('Mattlab\MuseBundle\Entity\Album')
+                    ->isInstanceOf('Mattlab\MuseBundle\Model\Album')
                 ->string($item->getPath())
                     ->isEqualTo(realpath($path) . '/')
 
                 ->object($item = $factory->get($path = 'album1'))
-                    ->isInstanceOf('Mattlab\MuseBundle\Entity\Album')
+                    ->isInstanceOf('Mattlab\MuseBundle\Model\Album')
                 ->string($item->getPath())
                     ->isEqualTo($this->getGalleryPath($path))
 
                 ->object($item = $factory->get($path = 'album1/photo1.jpg'))
-                    ->isInstanceOf('Mattlab\MuseBundle\Entity\Photo')
+                    ->isInstanceOf('Mattlab\MuseBundle\Model\Photo')
                 ->string($item->getPath())
                     ->isEqualTo($this->getGalleryPath($path))
 
                 ->object($item = $factory->get($path = 'album1/album1.1/photo1.jpg.muse'))
-                    ->isInstanceOf('Mattlab\MuseBundle\Entity\EncryptedPhoto')
+                    ->isInstanceOf('Mattlab\MuseBundle\Model\EncryptedPhoto')
                 ->string($item->getPath())
                     ->isEqualTo($this->getGalleryPath($path))
 
                 ->object($item = $factory->get(new SplFileInfo($path = $this->getGalleryPath('album1'))))
-                    ->isInstanceOf('Mattlab\MuseBundle\Entity\Album')
+                    ->isInstanceOf('Mattlab\MuseBundle\Model\Album')
                 ->string($item->getPath())
                     ->isEqualTo($path)
         ;

@@ -1,10 +1,10 @@
 <?php
 
-namespace Mattlab\MuseBundle\Tests\Units\Entity;
+namespace Mattlab\MuseBundle\Tests\Units\Model;
 
 use Mattlab\MuseBundle\Tests\Units\BaseTest;
 
-use mock\Mattlab\MuseBundle\Entity\Item as TestedClass;
+use mock\Mattlab\MuseBundle\Model\Item as TestedClass;
 
 
 class Item extends BaseTest

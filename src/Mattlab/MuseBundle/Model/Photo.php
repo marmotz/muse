@@ -1,6 +1,6 @@
 <?php
 
-namespace Mattlab\MuseBundle\Entity;
+namespace Mattlab\MuseBundle\Model;
 
 class Photo extends Item {
     public function getType() {

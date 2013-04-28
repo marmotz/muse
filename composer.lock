@@ -598,20 +598,23 @@
         },
         {
             "name": "jdorn/sql-formatter",
-            "version": "v1.2.0",
+            "version": "v1.2.9",
             "source": {
                 "type": "git",
-                "url": "git://github.com/jdorn/sql-formatter.git",
-                "reference": "v1.2.0"
+                "url": "https://github.com/jdorn/sql-formatter.git",
+                "reference": "v1.2.9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://github.com/jdorn/sql-formatter/archive/v1.2.0.zip",
-                "reference": "v1.2.0",
+                "url": "https://api.github.com/repos/jdorn/sql-formatter/zipball/v1.2.9",
+                "reference": "v1.2.9",
                 "shasum": ""
             },
             "require": {
                 "php": ">=5.2.4"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "3.7.*"
             },
             "type": "library",
             "extra": {
@@ -626,7 +629,7 @@
             },
             "notification-url": "https://packagist.org/downloads/",
             "license": [
-                "LGPL"
+                "MIT"
             ],
             "authors": [
                 {
@@ -641,7 +644,7 @@
                 "highlight",
                 "sql"
             ],
-            "time": "2012-12-22 21:46:50"
+            "time": "2013-04-26 18:42:52"
         },
         {
             "name": "jms/aop-bundle",
@@ -1862,12 +1865,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/atoum/atoum.git",
-                "reference": "234adcf03814c1298f34cbbbec0d52680a1ff649"
+                "reference": "f9a029b54ddbfaf5870180d49f78070ec5197a22"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/atoum/atoum/zipball/234adcf03814c1298f34cbbbec0d52680a1ff649",
-                "reference": "234adcf03814c1298f34cbbbec0d52680a1ff649",
+                "url": "https://api.github.com/repos/atoum/atoum/zipball/f9a029b54ddbfaf5870180d49f78070ec5197a22",
+                "reference": "f9a029b54ddbfaf5870180d49f78070ec5197a22",
                 "shasum": ""
             },
             "require": {
@@ -1928,7 +1931,7 @@
                 "test",
                 "unit testing"
             ],
-            "time": "2013-04-26 14:36:30"
+            "time": "2013-04-28 08:00:27"
         },
         {
             "name": "atoum/atoum-bundle",

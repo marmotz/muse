@@ -1,18 +1,18 @@
 <?php
 
-namespace Mattlab\MuseBundle\Tests\Units\Entity;
+namespace Mattlab\MuseBundle\Tests\Units\Model;
 
 use Mattlab\MuseBundle\Tests\Units\BaseTest;
 
-use Mattlab\MuseBundle\Entity\Gallery                       as TestedClass;
+use Mattlab\MuseBundle\Model\Gallery                        as TestedClass;
 use Mattlab\MuseBundle\Entity\Protection;
 use Mattlab\MuseBundle\Entity\User;
 
 use mock\Doctrine\ORM\EntityManager                         as mockEntityManager;
 use mock\Doctrine\ORM\EntityRepository                      as mockRepository;
-use mock\Mattlab\MuseBundle\Entity\Album                    as mockAlbum;
+use mock\Mattlab\MuseBundle\Model\Album                     as mockAlbum;
 use mock\Mattlab\MuseBundle\Entity\User                     as mockUser;
-use mock\Mattlab\MuseBundle\Entity\ItemFactory              as mockItemFactory;
+use mock\Mattlab\MuseBundle\Model\ItemFactory               as mockItemFactory;
 use mock\Symfony\Component\DependencyInjection\Container    as mockContainer;
 
 
@@ -27,7 +27,7 @@ class Gallery extends BaseTest
                 ->object($gallery->getEntityManager())
                     ->isIdenticalTo($mockEntityManager)
                 ->object($album = $gallery->getAlbum())
-                    ->isInstanceOf('Mattlab\MuseBundle\Entity\Album')
+                    ->isInstanceOf('Mattlab\MuseBundle\Model\Album')
                 ->string($album->getRelativePath())
                     ->isEqualTo($albumPath)
                 ->object($gallery->getUser())
@@ -71,7 +71,7 @@ class Gallery extends BaseTest
                 ->object($gallery->setAlbumPath($albumPath))
                     ->isIdenticalTo($gallery)
                 ->object($album = $gallery->getAlbum())
-                    ->isInstanceOf('Mattlab\MuseBundle\Entity\Album')
+                    ->isInstanceOf('Mattlab\MuseBundle\Model\Album')
                 ->string($album->getRelativePath())
                     ->isEqualTo($albumPath)
 

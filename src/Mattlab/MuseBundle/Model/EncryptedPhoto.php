@@ -1,6 +1,6 @@
 <?php
 
-namespace Mattlab\MuseBundle\Entity;
+namespace Mattlab\MuseBundle\Model;
 
 class EncryptedPhoto extends Photo {
     public function getName() {
