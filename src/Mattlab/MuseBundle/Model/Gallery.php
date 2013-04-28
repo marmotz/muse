@@ -167,7 +167,7 @@ class Gallery {
         return $this->addItems(
             $this->getFinder()
             ->files()
-            ->name('/\.(jpg|jpeg|png|muse)$/i')
+            ->name('/\.(jpe|jpg|jpeg|png|webp|svg|gif|bmp|muse)$/i')
         );
     }
 

@@ -14,13 +14,15 @@ class ItemFactory implements AdapterInjectable
 
 
     protected $galleryRootPath;
+    protected $cacheRootPath;
 
 
-    public function __construct($galleryRootPath, AdapterInterface $adapter = null)
+    public function __construct($galleryRootPath, $cacheRootPath, AdapterInterface $adapter = null)
     {
         $this
             ->setAdapter($adapter)
             ->setGalleryRootPath($galleryRootPath)
+            ->setCacheRootPath($cacheRootPath)
         ;
     }
 
@@ -42,7 +44,7 @@ class ItemFactory implements AdapterInjectable
             throw new RuntimeException('"' . $galleryRootPath . '" is not a readable directory.');
         }
 
-        $this->galleryRootPath = rtrim(realpath($galleryRootPath), DIRECTORY_SEPARATOR) . DIRECTORY_SEPARATOR;
+        $this->galleryRootPath = realpath($galleryRootPath) . DIRECTORY_SEPARATOR;
 
         return $this;
     }
@@ -50,6 +52,34 @@ class ItemFactory implements AdapterInjectable
     public function getGalleryRootPath()
     {
         return $this->galleryRootPath;
+    }
+
+
+    public function setCacheRootPath($cacheRootPath)
+    {
+        if(!$this->getAdapter()->file_exists($cacheRootPath))
+        {
+            throw new RuntimeException('"' . $cacheRootPath . '" does not exist.');
+        }
+
+        if(!$this->getAdapter()->is_dir($cacheRootPath))
+        {
+            throw new RuntimeException('"' . $cacheRootPath . '" is not a valid directory.');
+        }
+
+        if(!$this->getAdapter()->is_readable($cacheRootPath))
+        {
+            throw new RuntimeException('"' . $cacheRootPath . '" is not a readable directory.');
+        }
+
+        $this->cacheRootPath = realpath($cacheRootPath) . DIRECTORY_SEPARATOR;
+
+        return $this;
+    }
+
+    public function getcacheRootPath()
+    {
+        return $this->cacheRootPath;
     }
 
 
@@ -76,14 +106,18 @@ class ItemFactory implements AdapterInjectable
                 $relativePath = str_replace($this->getGalleryRootPath(), '', $file);
 
                 if(is_dir($file)) {
-                    return new Album($this->getGalleryRootPath(), $relativePath);
+                    $class = 'Album';
                 }
                 else if(substr($file, -4) === 'muse') {
-                    return new EncryptedPhoto($this->getGalleryRootPath(), $relativePath);
+                    $class = 'EncryptedPhoto';
                 }
                 else {
-                    return new Photo($this->getGalleryRootPath(), $relativePath);
+                    $class = 'Photo';
                 }
+
+                $class = __NAMESPACE__ . '\\' . $class;
+
+                return new $class($this->getGalleryRootPath(), $relativePath, $this->getCacheRootPath());
             }
             else if(file_exists($fullpath = $this->getGalleryRootPath() . ltrim($file, '/'))) {
                 return $this->get($fullpath);

@@ -12,7 +12,7 @@ class Item extends BaseTest
     public function testConstruct()
     {
         $this
-            ->if($item = new TestedClass($this->getGalleryRootPath(), ''))
+            ->if($item = new TestedClass($this->getGalleryRootPath(), '', ''))
                 ->string($item->getGalleryRootPath())
                     ->isEqualTo($this->getGalleryRootPath())
                 ->string($item->getRelativePath())
@@ -24,7 +24,7 @@ class Item extends BaseTest
     public function testSetGetGalleryRootPath()
     {
         $this
-            ->if($item = new TestedClass('', ''))
+            ->if($item = new TestedClass('', '', ''))
                 ->object($item->setGalleryRootPath($path = uniqid()))
                     ->isIdenticalTo($item)
                 ->string($item->getGalleryRootPath())
@@ -36,7 +36,7 @@ class Item extends BaseTest
     public function testSetGetRelativePath()
     {
         $this
-            ->if($item = new TestedClass('', ''))
+            ->if($item = new TestedClass('', '', ''))
                 ->object($item->setRelativePath($path = uniqid()))
                     ->isIdenticalTo($item)
                 ->string($item->getRelativePath())
@@ -48,7 +48,7 @@ class Item extends BaseTest
     public function testGetBasename()
     {
         $this
-            ->if($item = new TestedClass('', $path = 'path/to/item'))
+            ->if($item = new TestedClass('', $path = 'path/to/item', ''))
                 ->string($item->getBasename())
                     ->isEqualTo(basename($path))
         ;
@@ -58,7 +58,7 @@ class Item extends BaseTest
     public function testGetName()
     {
         $this
-            ->if($item = new TestedClass('', $path = 'path/to/item'))
+            ->if($item = new TestedClass('', $path = 'path/to/item', ''))
                 ->string($item->getName())
                     ->isEqualTo($item->getBasename())
         ;
@@ -68,7 +68,7 @@ class Item extends BaseTest
     public function testGetPath()
     {
         $this
-            ->if($item = new TestedClass($root = uniqid(), $path = uniqid()))
+            ->if($item = new TestedClass($root = uniqid(), $path = uniqid(), ''))
                 ->string($item->getPath())
                     ->isEqualTo($root . $path)
         ;
@@ -78,7 +78,7 @@ class Item extends BaseTest
     public function testIsAlbum()
     {
         $this
-            ->if($item = new TestedClass('', ''))
+            ->if($item = new TestedClass('', '', ''))
             ->and($this->calling($item)->getType = TestedClass::TYPE_ALBUM)
                 ->boolean($item->isAlbum())
                     ->isTrue()
@@ -93,7 +93,7 @@ class Item extends BaseTest
     public function testIsPhoto()
     {
         $this
-            ->if($item = new TestedClass('', ''))
+            ->if($item = new TestedClass('', '', ''))
             ->and($this->calling($item)->getType = TestedClass::TYPE_PHOTO)
                 ->boolean($item->isPhoto())
                     ->isTrue()
@@ -108,7 +108,7 @@ class Item extends BaseTest
     public function testGetParentPaths()
     {
         $this
-            ->if($item = new TestedClass('', $path = 'path/to/item'))
+            ->if($item = new TestedClass('', $path = 'path/to/item', ''))
                 ->array($item->getParentPaths())
                     ->isEqualTo(
                         array(

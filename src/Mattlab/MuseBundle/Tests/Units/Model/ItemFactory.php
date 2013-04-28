@@ -14,9 +14,11 @@ class ItemFactory extends BaseTest
     public function testConstruct()
     {
         $this
-            ->if($factory = new TestedClass($this->getGalleryRootPath()))
+            ->if($factory = new TestedClass($this->getGalleryRootPath(), $this->getCacheRootPath()))
                 ->string($factory->getGalleryRootPath())
                     ->isIdenticalTo(realpath($this->getGalleryRootPath()) . DIRECTORY_SEPARATOR)
+                ->string($factory->getCacheRootPath())
+                    ->isIdenticalTo(realpath($this->getCacheRootPath()) . DIRECTORY_SEPARATOR)
         ;
     }
 
@@ -27,7 +29,10 @@ class ItemFactory extends BaseTest
 
         $this
             ->if($adapter = new TestAdapter)
-            ->and($factory = new TestedClass($this->getGalleryRootPath(), $adapter))
+            ->and($factory = new TestedClass($this->getGalleryRootPath(), $this->getCacheRootPath(), $adapter))
+            ->and($adapter->file_exists = false)
+            ->and($adapter->is_dir      = false)
+            ->and($adapter->is_readable = false)
                 ->exception(
                     function() use($factory, &$path)
                     {
@@ -37,20 +42,26 @@ class ItemFactory extends BaseTest
                     ->isInstanceOf('RuntimeException')
                     ->hasMessage('"' . $path . '" does not exist.')
 
+            ->if( $adapter->file_exists = true)
+            ->and($adapter->is_dir      = false)
+            ->and($adapter->is_readable = false)
                 ->exception(
                     function() use($test, $factory, &$path)
                     {
-                        $factory->setGalleryRootPath($path = $test->getGalleryRootPath() . '/album1/photo1.jpg');
+                        $factory->setGalleryRootPath($path = uniqid());
                     }
                 )
                     ->isInstanceOf('RuntimeException')
                     ->hasMessage('"' . $path . '" is not a valid directory.')
 
-            ->if($adapter->is_readable = false)
+
+            ->if( $adapter->file_exists = true)
+            ->and($adapter->is_dir      = true)
+            ->and($adapter->is_readable = false)
                 ->exception(
                     function() use($test, $factory, &$path)
                     {
-                        $factory->setGalleryRootPath($path = $test->getGalleryRootPath() . '/album2');
+                        $factory->setGalleryRootPath($path = uniqid());
                     }
                 )
                     ->isInstanceOf('RuntimeException')
@@ -65,10 +76,62 @@ class ItemFactory extends BaseTest
     }
 
 
+    public function testSetGetCacheRootPath()
+    {
+        $test = $this;
+
+        $this
+            ->if($adapter = new TestAdapter)
+            ->and($factory = new TestedClass($this->getGalleryRootPath(), $this->getCacheRootPath(), $adapter))
+            ->and($adapter->file_exists = false)
+            ->and($adapter->is_dir      = false)
+            ->and($adapter->is_readable = false)
+                ->exception(
+                    function() use($factory, &$path)
+                    {
+                        $factory->setCacheRootPath($path = uniqid());
+                    }
+                )
+                    ->isInstanceOf('RuntimeException')
+                    ->hasMessage('"' . $path . '" does not exist.')
+
+            ->if( $adapter->file_exists = true)
+            ->and($adapter->is_dir      = false)
+            ->and($adapter->is_readable = false)
+                ->exception(
+                    function() use($test, $factory, &$path)
+                    {
+                        $factory->setCacheRootPath($path = uniqid());
+                    }
+                )
+                    ->isInstanceOf('RuntimeException')
+                    ->hasMessage('"' . $path . '" is not a valid directory.')
+
+            ->if( $adapter->file_exists = true)
+            ->and($adapter->is_dir      = true)
+            ->and($adapter->is_readable = false)
+                ->exception(
+                    function() use($test, $factory, &$path)
+                    {
+                        $factory->setCacheRootPath($path = uniqid());
+                    }
+                )
+                    ->isInstanceOf('RuntimeException')
+                    ->hasMessage('"' . $path . '" is not a readable directory.')
+
+            ->if($adapter->reset())
+                ->object($factory->setCacheRootPath($this->getCacheRootPath()))
+                    ->isIdenticalTo($factory)
+                ->string($factory->getCacheRootPath())
+                    ->isIdenticalTo(realpath($this->getCacheRootPath()) . DIRECTORY_SEPARATOR)
+        ;
+    }
+
+
     public function testGet()
     {
         $this
-            ->if($factory = new TestedClass($this->getGalleryRootPath()))
+            ->if($factory = new TestedClass($this->getGalleryRootPath(), $this->getCacheRootPath()))
                 ->exception(
                     function() use($factory)
                     {

@@ -12,7 +12,7 @@ class Album extends BaseTest
     public function testConstruct()
     {
         $this
-            ->if($album = new TestedClass($this->getGalleryRootPath(), ''))
+            ->if($album = new TestedClass('', '', ''))
                 ->string($album->getType())
                     ->isEqualTo(TestedClass::TYPE_ALBUM)
         ;

@@ -15,6 +15,7 @@ parameters:
     locale:             en
     secret:             bohpekaim2ahyi1aecam1Siecaish8Uin3oom4oochahgahvie7oweoshain1eec
 
+    muse.cache.root_path:       %kernel.cache_dir%
     muse.gallery.root_path:     %kernel.root_dir%/../gallery
     muse.default.item_per_page: 50
     muse.default.thumb.width:   150

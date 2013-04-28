@@ -8,13 +8,15 @@ abstract class Item {
 
     protected $galleryRootPath;
     protected $relativePath;
+    protected $cacheRootPath;
 
 
-    public function __construct($galleryRootPath, $relativePath)
+    public function __construct($galleryRootPath, $relativePath, $cacheRootPath)
     {
         $this
             ->setGalleryRootPath($galleryRootPath)
             ->setRelativePath($relativePath)
+            ->setCacheRootPath($cacheRootPath)
         ;
     }
 
@@ -41,6 +43,17 @@ abstract class Item {
 
     public function getRelativePath() {
         return $this->relativePath;
+    }
+
+
+    public function setCacheRootPath($cacheRootPath) {
+        $this->cacheRootPath = $cacheRootPath;
+
+        return $this;
+    }
+
+    public function getCacheRootPath() {
+        return $this->cacheRootPath;
     }
 
 

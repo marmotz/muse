@@ -59,4 +59,6 @@ $runner->setBootstrapFile(__DIR__ . '/.atoum.bootstrap.php');
 ///////////////////////
 // DEFAULT DIRECTORY //
 ///////////////////////
-$runner->addTestsFromDirectory(__DIR__ . '/src/Mattlab/MuseBundle/Tests/Units');
+if(count(array_intersect($_SERVER['argv'], array('-f', '--files', '-d', '--directories'))) === 0) {
+    $runner->addTestsFromDirectory(__DIR__ . '/src/Mattlab/MuseBundle/Tests/Units');
+}

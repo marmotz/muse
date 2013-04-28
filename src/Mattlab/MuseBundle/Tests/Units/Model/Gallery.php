@@ -40,7 +40,7 @@ class Gallery extends BaseTest
     {
         $this
             ->if(list($gallery) = $this->generateGallery())
-            ->and($mockItemFactory = new mockItemFactory($this->getGalleryRootPath()))
+            ->and($mockItemFactory = new mockItemFactory($this->getGalleryRootPath(), $this->getCacheRootPath()))
                 ->object($gallery->setItemFactory($mockItemFactory))
                     ->isIdenticalTo($gallery)
                 ->object($gallery->getItemFactory())
@@ -75,7 +75,7 @@ class Gallery extends BaseTest
                 ->string($album->getRelativePath())
                     ->isEqualTo($albumPath)
 
-            ->if($mockItemFactory = new mockItemFactory($this->getGalleryRootPath()))
+            ->if($mockItemFactory = new mockItemFactory($this->getGalleryRootPath(), $this->getCacheRootPath()))
             ->and($mockAlbum = $mockItemFactory->get($albumPath))
                 ->object($gallery->setAlbum($mockAlbum))
                     ->isIdenticalTo($gallery)
@@ -313,7 +313,13 @@ class Gallery extends BaseTest
                     ->isEqualTo(
                         array(
                             $mockItemFactory->get('album1/photo1.jpg'),
-                            $mockItemFactory->get('album1/photo2.jpg'),
+                            $mockItemFactory->get('album1/photo2.jpeg'),
+                            $mockItemFactory->get('album1/photo3.webp'),
+                            $mockItemFactory->get('album1/photo4.png'),
+                            $mockItemFactory->get('album1/photo5.svg'),
+                            $mockItemFactory->get('album1/photo6.gif'),
+                            $mockItemFactory->get('album1/photo7.bmp'),
+                            $mockItemFactory->get('album1/photo8.jpe'),
                         )
                     )
 
@@ -380,7 +386,13 @@ class Gallery extends BaseTest
                             $mockItemFactory->get('album1/album1.2'),
                             $mockItemFactory->get('album1/album1.3'),
                             $mockItemFactory->get('album1/photo1.jpg'),
-                            $mockItemFactory->get('album1/photo2.jpg'),
+                            $mockItemFactory->get('album1/photo2.jpeg'),
+                            $mockItemFactory->get('album1/photo3.webp'),
+                            $mockItemFactory->get('album1/photo4.png'),
+                            $mockItemFactory->get('album1/photo5.svg'),
+                            $mockItemFactory->get('album1/photo6.gif'),
+                            $mockItemFactory->get('album1/photo7.bmp'),
+                            $mockItemFactory->get('album1/photo8.jpe'),
                         )
                     )
 
@@ -394,7 +406,13 @@ class Gallery extends BaseTest
                             $mockItemFactory->get('album1/album1.2'),
                             $mockItemFactory->get('album1/album1.3'),
                             $mockItemFactory->get('album1/photo1.jpg'),
-                            $mockItemFactory->get('album1/photo2.jpg'),
+                            $mockItemFactory->get('album1/photo2.jpeg'),
+                            $mockItemFactory->get('album1/photo3.webp'),
+                            $mockItemFactory->get('album1/photo4.png'),
+                            $mockItemFactory->get('album1/photo5.svg'),
+                            $mockItemFactory->get('album1/photo6.gif'),
+                            $mockItemFactory->get('album1/photo7.bmp'),
+                            $mockItemFactory->get('album1/photo8.jpe'),
                         )
                     )
         ;
@@ -452,7 +470,7 @@ class Gallery extends BaseTest
     private function generateGallery(mockEntityManager $mockEntityManager = null, $albumPath = null)
     {
         // ItemFactory
-        $mockItemFactory = new mockItemFactory($this->getGalleryRootPath());
+        $mockItemFactory = new mockItemFactory($this->getGalleryRootPath(), $this->getCacheRootPath());
 
         // EntityManager
         if($mockEntityManager === null) {

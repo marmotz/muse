@@ -18,4 +18,10 @@ class BaseTest extends Test
 
         return $item;
     }
+
+
+    public function getCacheRootPath()
+    {
+        return __DIR__ . '/../../Resources/tests/cache';
+    }
 }
