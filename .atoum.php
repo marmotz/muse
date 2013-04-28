@@ -44,6 +44,8 @@ $script->noCodeCoverageForNamespaces(
     'mageekguy',
     'Mattlab\MuseBundle\Adapter',
     'Mattlab\MuseBundle\DependencyInjection',
+    'Mattlab\MuseBundle\Controller',
+    'Mattlab\MuseBundle\Entity\Base',
     'Mattlab\MuseBundle\Repository'
 );
 
