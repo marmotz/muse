@@ -3,8 +3,8 @@
 namespace Mattlab\MuseBundle\Controller;
 
 
-use Mattlab\MuseBundle\Entity\Gallery;
-use Mattlab\MuseBundle\Entity\Item;
+use Mattlab\MuseBundle\Model\Gallery;
+use Mattlab\MuseBundle\Model\Item;
 
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -21,14 +21,17 @@ class AlbumController extends Controller
             $session->has('user') ? $session->get('user') : null
         );
 
-        $session->set('lastAlbumPath',   $album->getPath());
+        $session->set('lastAlbumPath',   $gallery->getAlbum()->getRelativePath());
         $session->set('lastPage',        $page);
         $session->set('lastItemPerPage', $itemPerPage);
 
-        return array(
-            'gallery'   => $gallery,
-            'page'      => $page,
-            'nbPerPage' => $itemPerPage,
+        return $this->render(
+            'MattlabMuseBundle:Album:display.html.twig',
+            array(
+                'gallery'   => $gallery,
+                'page'      => $page,
+                'nbPerPage' => $itemPerPage,
+            )
         );
     }
 

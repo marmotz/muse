@@ -61,9 +61,7 @@ class Photo extends Item {
                 mkdir($path, 0777, true);
             }
 
-            if($imagick === null) {
-                $imagick = new Imagick($this->getPath());
-            }
+            $imagick = $imagick ?: new Imagick($this->getPath());
 
             switch($imagick->getImageOrientation()) {
                 case Imagick::ORIENTATION_TOPRIGHT:

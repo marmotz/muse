@@ -2,132 +2,180 @@
 
 namespace Mattlab\MuseBundle\Tests\Units\Model;
 
-// use Mattlab\MuseBundle\Tests\Units\BaseTest;
+use Mattlab\MuseBundle\Tests\Units\BaseTest;
 
-// use Mattlab\MuseBundle\Model\Photo as TestedClass;
+use Mattlab\MuseBundle\Model\Photo as TestedClass;
 
-// use mock\Imagick as mockImagick;
-use atoum\test;
+use Imagick;
+use mock\Imagick as mockImagick;
 
 
-class Photo extends test
+class Photo extends BaseTest
 {
-    // public function testConstruct()
-    // {
-    //     $this
-    //         ->if($photo = new TestedClass('', '', ''))
-    //             ->string($photo->getType())
-    //                 ->isEqualTo(TestedClass::TYPE_PHOTO)
-    //     ;
-    // }
-
-
-    // public function testGetContentType()
-    // {
-    //     $this
-    //         ->if($photo = new TestedClass('', 'photo.jpg', ''))
-    //             ->string($photo->getContentType())
-    //                 ->isEqualTo('image/jpeg')
-
-    //         ->if($photo = new TestedClass('', 'photo.jpeg', ''))
-    //             ->string($photo->getContentType())
-    //                 ->isEqualTo('image/jpeg')
-
-    //         ->if($photo = new TestedClass('', 'photo.jpe', ''))
-    //             ->string($photo->getContentType())
-    //                 ->isEqualTo('image/jpeg')
-
-    //         ->if($photo = new TestedClass('', 'photo.png', ''))
-    //             ->string($photo->getContentType())
-    //                 ->isEqualTo('image/png')
-
-    //         ->if($photo = new TestedClass('', 'photo.gif', ''))
-    //             ->string($photo->getContentType())
-    //                 ->isEqualTo('image/gif')
-
-    //         ->if($photo = new TestedClass('', 'photo.bmp', ''))
-    //             ->string($photo->getContentType())
-    //                 ->isEqualTo('image/bmp')
-
-    //         ->if($photo = new TestedClass('', 'photo.webp', ''))
-    //             ->string($photo->getContentType())
-    //                 ->isEqualTo('image/webp')
-
-    //         ->if($photo = new TestedClass('', 'photo.svg', ''))
-    //             ->string($photo->getContentType())
-    //                 ->isEqualTo('image/svg+xml')
-
-    //         ->if($photo = new TestedClass('', 'photo.' . $ext = uniqid(), ''))
-    //             ->exception(
-    //                 function() use($photo) {
-    //                     $photo->getContentType();
-    //                 }
-    //             )
-    //                 ->isInstanceOf('RuntimeException')
-    //                 ->hasMessage('"' . $ext . '" images are not supported.')
-    //     ;
-    // }
-
-
-    // public function testGetThumbPath()
-    // {
-    //     $this
-    //         ->if($photo = new TestedClass('', '', ''))
-    //         ->and($photo->setCacheRootPath('/path/to/cache/'))
-    //         ->and($photo->setRelativePath('/path/to/photo.jpg'))
-    //             ->string($photo->getThumbPath(100, 100))
-    //                 ->isEqualTo('/path/to/cache/path/to/photo_100x100.jpg')
-
-    //         ->if( $photo->setCacheRootPath('/path/to/cache'))
-    //         ->and($photo->setRelativePath('/path/to/photo.jpg'))
-    //             ->string($photo->getThumbPath(100, 100))
-    //                 ->isEqualTo('/path/to/cache/path/to/photo_100x100.jpg')
-
-    //         ->if( $photo->setCacheRootPath('/path/to/cache/'))
-    //         ->and($photo->setRelativePath('path/to/photo.jpg'))
-    //             ->string($photo->getThumbPath(100, 100))
-    //                 ->isEqualTo('/path/to/cache/path/to/photo_100x100.jpg')
-
-    //         ->if( $photo->setCacheRootPath('/path/to/cache'))
-    //         ->and($photo->setRelativePath('path/to/photo.jpg'))
-    //             ->string($photo->getThumbPath(100, 100))
-    //                 ->isEqualTo('/path/to/cache/path/to/photo_100x100.jpg')
-    //     ;
-    // }
-
-
-    public function testGenerateThumb()
+    public function testConstruct()
     {
-        new \mock\Imagick;
-        // $this
-            // ->if($photo = new TestedClass($this->getGalleryRootPath(), 'album1/photo1.jpg', $this->getCacheRootPath()))
-            // ->dump($this->getGalleryPath('album1/photo1.jpg'))
-            // ->and($mockImagick = new \mock\Imagick($this->getGalleryPath('album1/photo1.jpg')))
-            // ->and($this->calling($mockImagick)->getImageOrientation = Imagick::ORIENTATION_TOPRIGHT)
-            // ->and($this->calling($mockImagick)->getImageWidth  = $imageWidth  = 500)
-            // ->and($this->calling($mockImagick)->getImageHeight = $imageHeight = 500)
-            // ->and($this->calling($mockImagick)->writeImage = function(){})
-            // ->and($thumbWidth  = 200)
-            // ->and($thumbHeight = 200)
-            // ->and($thumbPath = $photo->getThumbPath($thumbWidth, $thumbHeight))
-                // ->string($photo->generateThumb($thumbWidth, $thumbHeight, $mockImagick))
-                //     ->isEqualTo($thumbPath)
-                // ->mock($mockImagick)
-                //     ->call('rotateImage')->withIdenticalArguments('white', 90)
-                //         ->once()
-                //     ->call('thumbnailImage')->withIdenticalArguments($thumbWidth, $thumbHeight, true)
-                //         ->once()
-                //     ->call('borderImage')->withIdenticalArguments('white', $thumbWidth, $thumbHeight)
-                //         ->once()
-                //     ->call('cropImage')->withIdenticalArguments(
-                //         $thumbWidth,
-                //         $thumbHeight,
-                //         ($imageWidth  / 2) - ($thumbWidth  / 2),
-                //         ($imageHeight / 2) - ($thumbHeight / 2)
-                //     )
-                //         ->once()
-                //     ->call('writeImage')->withIdenticalArguments($thumbPath)
-                //         ->once()
-        // ;
+        $this
+            ->if($photo = $this->generatePhoto(''))
+                ->string($photo->getType())
+                    ->isEqualTo(TestedClass::TYPE_PHOTO)
+        ;
+    }
+
+
+    public function testGetContentType()
+    {
+        $this
+            ->if($photo = $this->generatePhoto('photo.jpg'))
+                ->string($photo->getContentType())
+                    ->isEqualTo('image/jpeg')
+
+            ->if($photo = $this->generatePhoto('photo.jpeg'))
+                ->string($photo->getContentType())
+                    ->isEqualTo('image/jpeg')
+
+            ->if($photo = $this->generatePhoto('photo.jpe'))
+                ->string($photo->getContentType())
+                    ->isEqualTo('image/jpeg')
+
+            ->if($photo = $this->generatePhoto('photo.png'))
+                ->string($photo->getContentType())
+                    ->isEqualTo('image/png')
+
+            ->if($photo = $this->generatePhoto('photo.gif'))
+                ->string($photo->getContentType())
+                    ->isEqualTo('image/gif')
+
+            ->if($photo = $this->generatePhoto('photo.bmp'))
+                ->string($photo->getContentType())
+                    ->isEqualTo('image/bmp')
+
+            ->if($photo = $this->generatePhoto('photo.webp'))
+                ->string($photo->getContentType())
+                    ->isEqualTo('image/webp')
+
+            ->if($photo = $this->generatePhoto('photo.svg'))
+                ->string($photo->getContentType())
+                    ->isEqualTo('image/svg+xml')
+
+            ->if($photo = $this->generatePhoto('photo.' . $ext = uniqid()))
+                ->exception(
+                    function() use($photo) {
+                        $photo->getContentType();
+                    }
+                )
+                    ->isInstanceOf('RuntimeException')
+                    ->hasMessage('"' . $ext . '" images are not supported.')
+        ;
+    }
+
+
+    public function testGetThumbPath()
+    {
+        $this
+            ->if($photo = $this->generatePhoto(''))
+            ->and($photo->setCacheRootPath('/path/to/cache/'))
+            ->and($photo->setRelativePath('/path/to/photo.jpg'))
+                ->string($photo->getThumbPath(100, 100))
+                    ->isEqualTo('/path/to/cache/path/to/photo_100x100.jpg')
+
+            ->if( $photo->setCacheRootPath('/path/to/cache'))
+            ->and($photo->setRelativePath('/path/to/photo.jpg'))
+                ->string($photo->getThumbPath(100, 100))
+                    ->isEqualTo('/path/to/cache/path/to/photo_100x100.jpg')
+
+            ->if( $photo->setCacheRootPath('/path/to/cache/'))
+            ->and($photo->setRelativePath('path/to/photo.jpg'))
+                ->string($photo->getThumbPath(100, 100))
+                    ->isEqualTo('/path/to/cache/path/to/photo_100x100.jpg')
+
+            ->if( $photo->setCacheRootPath('/path/to/cache'))
+            ->and($photo->setRelativePath('path/to/photo.jpg'))
+                ->string($photo->getThumbPath(100, 100))
+                    ->isEqualTo('/path/to/cache/path/to/photo_100x100.jpg')
+        ;
+    }
+
+
+    /**
+     * @dataProvider generateThumbDataProvider
+     */
+    public function testGenerateThumb($orientation, $angle)
+    {
+        $this
+            ->if($photo = $this->generatePhoto($photoPath = 'album1/photo1.jpg'))
+            ->and($mockImagick = $this->geneteMockImagick($photoPath, $orientation, $size = $this->faker->randomNumber(500, 1000)))
+            ->and($thumbPath = $photo->getThumbPath($thumbSize = $this->faker->randomNumber(100, $size), $thumbSize ))
+            ->and(rmdir(dirname($thumbPath)))
+                ->string($photo->generateThumb($thumbSize, $thumbSize, $mockImagick))
+                    ->isEqualTo($thumbPath)
+                ->mock($mockImagick)
+                    ->call('thumbnailImage')->withIdenticalArguments($thumbSize, $thumbSize, true)
+                        ->once()
+                    ->call('borderImage')->withIdenticalArguments('white', $thumbSize, $thumbSize)
+                        ->once()
+                    ->call('cropImage')->withIdenticalArguments(
+                        $thumbSize,
+                        $thumbSize,
+                        ($size / 2) - ($thumbSize / 2),
+                        ($size / 2) - ($thumbSize / 2)
+                    )
+                        ->once()
+                    ->call('writeImage')->withIdenticalArguments($thumbPath)
+                        ->once()
+        ;
+
+        if ($angle === 0) {
+            $this
+                ->mock($mockImagick)
+                    ->call('rotateImage')
+                        ->never()
+            ;
+        }
+        else {
+            $this
+                ->mock($mockImagick)
+                    ->call('rotateImage')->withIdenticalArguments('white', $angle)
+                        ->once()
+            ;
+        }
+    }
+
+    public function generateThumbDataProvider()
+    {
+        return array(
+            array(Imagick::ORIENTATION_LEFTTOP,       0),
+            array(Imagick::ORIENTATION_TOPLEFT,       0),
+            array(Imagick::ORIENTATION_TOPRIGHT,     90),
+            array(Imagick::ORIENTATION_RIGHTTOP,     90),
+            array(Imagick::ORIENTATION_BOTTOMRIGHT, 180),
+            array(Imagick::ORIENTATION_RIGHTBOTTOM, 180),
+            array(Imagick::ORIENTATION_LEFTBOTTOM,  270),
+            array(Imagick::ORIENTATION_BOTTOMLEFT,  270),
+        );
+    }
+
+
+    /*
+     * HELPERS
+     */
+    private function generatePhoto($photoPath)
+    {
+        return new TestedClass(
+            $this->getGalleryRootPath(),
+            $photoPath,
+            $this->getCacheRootPath()
+        );
+    }
+
+    private function geneteMockImagick($photoPath, $orientation, $size)
+    {
+        $mockImagick = new mockImagick($this->getGalleryPath($photoPath));
+
+        $this->calling($mockImagick)->getImageOrientation = $orientation;
+        $this->calling($mockImagick)->getImageWidth  = $size;
+        $this->calling($mockImagick)->getImageHeight = $size;
+        $this->calling($mockImagick)->writeImage = function() {};
+
+        return $mockImagick;
     }
 }

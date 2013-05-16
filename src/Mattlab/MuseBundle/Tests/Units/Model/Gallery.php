@@ -85,7 +85,7 @@ class Gallery extends BaseTest
     }
 
 
-    public function testSetGenerateMockUser()
+    public function testSetUser()
     {
         $this
             ->if(list($gallery) = $this->generateGallery())
@@ -94,6 +94,11 @@ class Gallery extends BaseTest
                     ->isIdenticalTo($gallery)
                 ->object($gallery->getUser())
                     ->isIdenticalTo($mockUser)
+
+                ->object($gallery->setUser(null))
+                    ->isIdenticalTo($gallery)
+                ->variable($gallery->getUser())
+                    ->isNull()
         ;
     }
 
@@ -488,7 +493,7 @@ class Gallery extends BaseTest
                     return $mockItemFactory;
                 break;
 
-                case 'doctrine.entity_managers':
+                case 'doctrine.orm.default_entity_manager':
                     return $mockEntityManager;
                 break;
             }

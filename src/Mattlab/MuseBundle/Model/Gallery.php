@@ -5,7 +5,6 @@ namespace Mattlab\MuseBundle\Model;
 
 use Doctrine\ORM\EntityManager;
 use Mattlab\MuseBundle\Entity\User;
-use Mattlab\MuseBundle\Model\ItemFactory;
 use Symfony\Component\DependencyInjection\Container;
 use Symfony\Component\Finder\Finder;
 
@@ -22,7 +21,7 @@ class Gallery {
     {
         $this
             ->setItemFactory($container->get('muse.item_factory'))
-            ->setEntityManager($container->get('doctrine.entity_managers'))
+            ->setEntityManager($container->get('doctrine.orm.default_entity_manager'))
             ->setAlbumPath($albumPath)
             ->setUser($user)
         ;
@@ -62,6 +61,7 @@ class Gallery {
         );
     }
 
+
     public function setAlbum(Album $album)
     {
         $this->album = $album;
@@ -75,7 +75,7 @@ class Gallery {
     }
 
 
-    public function setUser(User $user)
+    public function setUser(User $user = null)
     {
         $this->user = $user;
 
