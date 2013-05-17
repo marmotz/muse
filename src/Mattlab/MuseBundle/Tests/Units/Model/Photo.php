@@ -105,7 +105,7 @@ class Photo extends BaseTest
             ->if($photo = $this->generatePhoto($photoPath = 'album1/photo1.jpg'))
             ->and($mockImagick = $this->geneteMockImagick($photoPath, $orientation, $size = $this->faker->randomNumber(500, 1000)))
             ->and($thumbPath = $photo->getThumbPath($thumbSize = $this->faker->randomNumber(100, $size), $thumbSize ))
-            ->and(rmdir(dirname($thumbPath)))
+            ->and(file_exists(dirname($thumbPath)) && rmdir(dirname($thumbPath)))
                 ->string($photo->generateThumb($thumbSize, $thumbSize, $mockImagick))
                     ->isEqualTo($thumbPath)
                 ->mock($mockImagick)

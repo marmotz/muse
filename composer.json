@@ -47,6 +47,7 @@
         "symfony-web-dir": "web",
         "branch-alias": {
             "dev-master": "2.2-dev"
-        }
+        },
+        "symfony-assets-install": "symlink"
     }
 }
