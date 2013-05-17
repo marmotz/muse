@@ -5,6 +5,7 @@ php:
 
 before_script:
     - printf "\n" | pecl install imagick
+    - echo "extension=imagick.so" >> ~/.phpenv/versions/$(phpenv version-name)/etc/php.ini
     - "mkdir -p ~/.composer"
     - cp .travis.composer.config.json ~/.composer/config.json
     - composer install --dev
